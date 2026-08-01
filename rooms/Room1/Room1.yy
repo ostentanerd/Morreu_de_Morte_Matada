@@ -33,8 +33,8 @@
   ],
   "name":"Room1",
   "parent":{
-    "name":"Morreu de Morte Matada",
-    "path":"Morreu de Morte Matada.yyp",
+    "name":"Roons",
+    "path":"folders/Roons.yy",
   },
   "parentRoom":null,
   "physicsSettings":{
