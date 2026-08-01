@@ -1,5 +1,5 @@
 // Defina o número máximo de ricochetes permitidos antes da foice sumir/quebrar
-bounces_max = 3;
+bounces_max = 4;
 bounces_left = bounces_max;
 
 // Defina a velocidade da foice

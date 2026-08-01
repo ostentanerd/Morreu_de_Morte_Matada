@@ -23,7 +23,9 @@
   },
   "name":"Morreu de Morte Matada",
   "resources":[
+    {"id":{"name":"obj_armadilha","path":"objects/obj_armadilha/obj_armadilha.yy",},},
     {"id":{"name":"obj_controle","path":"objects/obj_controle/obj_controle.yy",},},
+    {"id":{"name":"obj_corda","path":"objects/obj_corda/obj_corda.yy",},},
     {"id":{"name":"obj_foice","path":"objects/obj_foice/obj_foice.yy",},},
     {"id":{"name":"obj_joystick","path":"objects/obj_joystick/obj_joystick.yy",},},
     {"id":{"name":"obj_morte","path":"objects/obj_morte/obj_morte.yy",},},
@@ -31,8 +33,11 @@
     {"id":{"name":"obj_vitima","path":"objects/obj_vitima/obj_vitima.yy",},},
     {"id":{"name":"Object6","path":"objects/Object6/Object6.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
+    {"id":{"name":"Room2","path":"rooms/Room2/Room2.yy",},},
+    {"id":{"name":"spr_corda","path":"sprites/spr_corda/spr_corda.yy",},},
     {"id":{"name":"spr_foice","path":"sprites/spr_foice/spr_foice.yy",},},
     {"id":{"name":"spr_joystick","path":"sprites/spr_joystick/spr_joystick.yy",},},
+    {"id":{"name":"spr_lustre","path":"sprites/spr_lustre/spr_lustre.yy",},},
     {"id":{"name":"spr_mira","path":"sprites/spr_mira/spr_mira.yy",},},
     {"id":{"name":"spr_parede","path":"sprites/spr_parede/spr_parede.yy",},},
     {"id":{"name":"spr_player","path":"sprites/spr_player/spr_player.yy",},},
@@ -43,6 +48,7 @@
   "resourceVersion":"2.0",
   "RoomOrderNodes":[
     {"roomId":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
+    {"roomId":{"name":"Room2","path":"rooms/Room2/Room2.yy",},},
   ],
   "templateType":"game",
   "TextureGroups":[
