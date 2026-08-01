@@ -1,13 +1,16 @@
-// Atualiza a animação da mira lendo a saída do obj_joystick
 if (instance_exists(obj_joystick)) {
-    if (obj_joystick.input_aim) {
-        mira_frame = 1; // Pressionado
-    } else {
-        mira_frame = 0; // Normal
-    }
+    // Animação do frame da mira
+    mira_frame = obj_joystick.input_aim ? 1 : 0;
     
-    // Se o botão de reset for acionado
+    // REINICIAR A SALA
     if (obj_joystick.input_reset) {
+        // Reseta o estado de game over ANTES de dar o restart
+        game_over = false;
+        
+        // Limpa o botão para evitar loop infinito
+        obj_joystick.input_reset = false;
+        
+        // Reinicia a fase
         room_restart();
     }
 }

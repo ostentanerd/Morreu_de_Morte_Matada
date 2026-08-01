@@ -1,20 +1,19 @@
-// Desenha a própria sprite do jogador
 draw_self();
 
-// Desenha a linha guia vermelha enquanto o jogador estiver segurando o botão de mirar
+// Só desenha a mira se estiver mirando E NÃO estiver em Game Over
 if (instance_exists(obj_joystick)) {
-    if (obj_joystick.input_aim) {
+    var _esta_em_game_over = false;
+    if (instance_exists(obj_controle)) {
+        _esta_em_game_over = obj_controle.game_over;
+    }
+    
+    if (obj_joystick.input_aim && !_esta_em_game_over) {
         var _dir = obj_joystick.aim_angle;
-        
-        // Comprimento da linha vermelha (250 pixels)
         var _target_x = x + lengthdir_x(250, _dir);
         var _target_y = y + lengthdir_y(250, _dir);
         
-        // Desenha a linha de mira
         draw_set_color(c_red);
         draw_line_width(x, y, _target_x, _target_y, 2);
-        
-        // IMPORTANTE: Reseta a cor de desenho de volta para branco!
-        draw_set_color(c_white); 
+        draw_set_color(c_white);
     }
 }

@@ -1,3 +1,10 @@
+// Se já existir OUTRA instância deste objeto ativa, destrói a cópia nova!
+if (instance_number(object_index) > 1) {
+    instance_destroy();
+    exit;
+}
+
+
 // Garante que persista entre as salas
 persistent = true;
 

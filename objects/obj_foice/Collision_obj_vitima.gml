@@ -1,10 +1,9 @@
 // A Morte não pode matar diretamente com a foice!
 show_debug_message("VOCÊ PERDEU: A foice encostou na vítima!");
 
-// Opcional: Criar efeito sonoro de falha / partículas de sangue falso
+// A Morte não pode acertar o alvo diretamente!
+if (instance_exists(obj_controle)) {
+    obj_controle.game_over = true;
+}
 
-// Destrói a foice para interromper a jogada
-instance_destroy();
-
-// Reinicia a fase após um pequeno intervalo ou imediatamente
-room_restart();
+instance_destroy(); // Destrói a foice

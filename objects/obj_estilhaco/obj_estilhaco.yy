@@ -1,12 +1,12 @@
 {
   "$GMObject":"",
-  "%Name":"obj_vitima",
+  "%Name":"obj_estilhaco",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"obj_vitima",
+  "name":"obj_estilhaco",
   "overriddenProperties":[],
   "parent":{
     "name":"Objetos",
@@ -31,8 +31,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_vitima",
-    "path":"sprites/spr_vitima/spr_vitima.yy",
+    "name":"spr_estilhaco",
+    "path":"sprites/spr_estilhaco/spr_estilhaco.yy",
   },
   "spriteMaskId":null,
   "visible":true,

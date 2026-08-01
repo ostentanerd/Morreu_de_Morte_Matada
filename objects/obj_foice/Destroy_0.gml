@@ -1,9 +1,7 @@
-// Se a foice foi destruída e a vítima AINDA ESTÁ VIVA na fase, o arremesso falhou!
-if (instance_exists(obj_vitima)) {
-    // Checa se nenhum objetivo de vitória foi acionado (ex: o lustre caindo)
-    // Se a vítima continuar viva após a foice sumir, reinicia a fase em 1 segundo
-    if (instance_exists(obj_joystick)) {
-        // Reinicia a fase para tentar novamente
-        alarm_set(0, 60); // Opcional: ou chama room_restart() direto
+// Se a foice sumiu (ex: saiu da tela) e a vítima AINDA está viva:
+if (instance_exists(obj_vitima) && instance_exists(obj_controle)) {
+    // Se a armadilha também não está caindo no momento, o jogador errou a jogada
+    if (!instance_exists(obj_armadilha) || !obj_armadilha.caindo) {
+        obj_controle.game_over = true;
     }
 }
