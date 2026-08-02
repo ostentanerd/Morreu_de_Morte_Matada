@@ -10,9 +10,9 @@
   },
   "defaultScriptType":1,
   "Folders":[
-    {"$GMFolder":"","%Name":"Sprite","folderPath":"folders/Sprite.yy","name":"Sprite","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Objetos","folderPath":"folders/Objetos.yy","name":"Objetos","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Roons","folderPath":"folders/Roons.yy","name":"Roons","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"Sprite","folderPath":"folders/Sprite.yy","name":"Sprite","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
   "ForcedPrefabProjectReferences":[],
   "IncludedFiles":[],
@@ -23,8 +23,10 @@
   },
   "name":"Morreu de Morte Matada",
   "resources":[
+    {"id":{"name":"fnt_menu","path":"fonts/fnt_menu/fnt_menu.yy",},},
     {"id":{"name":"obj_armadilha","path":"objects/obj_armadilha/obj_armadilha.yy",},},
     {"id":{"name":"obj_btn_fase","path":"objects/obj_btn_fase/obj_btn_fase.yy",},},
+    {"id":{"name":"obj_btn_voltar_menu","path":"objects/obj_btn_voltar_menu/obj_btn_voltar_menu.yy",},},
     {"id":{"name":"obj_btn_voltar","path":"objects/obj_btn_voltar/obj_btn_voltar.yy",},},
     {"id":{"name":"obj_controle","path":"objects/obj_controle/obj_controle.yy",},},
     {"id":{"name":"obj_corda","path":"objects/obj_corda/obj_corda.yy",},},
@@ -37,6 +39,7 @@
     {"id":{"name":"obj_vitima_morta","path":"objects/obj_vitima_morta/obj_vitima_morta.yy",},},
     {"id":{"name":"obj_vitima","path":"objects/obj_vitima/obj_vitima.yy",},},
     {"id":{"name":"Object6","path":"objects/Object6/Object6.yy",},},
+    {"id":{"name":"rm_creditos","path":"rooms/rm_creditos/rm_creditos.yy",},},
     {"id":{"name":"rm_fase1","path":"rooms/rm_fase1/rm_fase1.yy",},},
     {"id":{"name":"rm_fase2","path":"rooms/rm_fase2/rm_fase2.yy",},},
     {"id":{"name":"rm_fase3","path":"rooms/rm_fase3/rm_fase3.yy",},},
@@ -68,6 +71,7 @@
     {"roomId":{"name":"rm_fase3","path":"rooms/rm_fase3/rm_fase3.yy",},},
     {"roomId":{"name":"rm_fase4","path":"rooms/rm_fase4/rm_fase4.yy",},},
     {"roomId":{"name":"rm_fase5","path":"rooms/rm_fase5/rm_fase5.yy",},},
+    {"roomId":{"name":"rm_creditos","path":"rooms/rm_creditos/rm_creditos.yy",},},
   ],
   "templateType":"game",
   "TextureGroups":[
