@@ -31,8 +31,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_vitima",
-    "path":"sprites/spr_vitima/spr_vitima.yy",
+    "name":"spr_vitima_idle",
+    "path":"sprites/spr_vitima_idle/spr_vitima_idle.yy",
   },
   "spriteMaskId":null,
   "visible":true,

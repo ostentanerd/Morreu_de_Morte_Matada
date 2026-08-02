@@ -1,22 +1,31 @@
 // -------------------------------------------------------------
-// 1. CHECAGEM DE PAUSA
+// 1. CHECAGEM DE PAUSA & SPRITE IDLE
 // -------------------------------------------------------------
-// Se o temporizador estiver ativo, a vítima fica parada contando o tempo
 if (pause_timer > 0) {
     pause_timer--;
-    exit; // Interrompe o evento Step aqui (não executa a movimentação)
+    
+    // Troca para a sprite de parado se existir
+    if (sprite_exists(spr_vitima_idle)) {
+        sprite_index = spr_vitima_idle;
+    }
+    
+    exit; // Fica parado
 }
 
 // -------------------------------------------------------------
-// 2. MOVIMENTAÇÃO E ANIMAÇÃO
+// 2. MOVIMENTAÇÃO & SPRITE ANDANDO
 // -------------------------------------------------------------
 x += move_speed * dir;
 
-// Inverte a sprite para olhar na direção correta
+// Troca para a sprite de caminhada
+if (sprite_exists(spr_vitima_walk)) {
+    sprite_index = spr_vitima_walk;
+}
+
+// Inverte o lado para onde está olhando
 if (dir != 0) {
     image_xscale = dir;
 }
-
 // -------------------------------------------------------------
 // 3. LIMITES DO CAMINHO (COM PAUSA)
 // -------------------------------------------------------------

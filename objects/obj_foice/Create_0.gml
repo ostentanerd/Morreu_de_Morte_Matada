@@ -1,6 +1,9 @@
-// Defina o número máximo de ricochetes permitidos antes da foice sumir/quebrar
+// Defina o número máximo de ricochetes permitidos
 bounces_max = 4;
 bounces_left = bounces_max;
 
-// Defina a velocidade da foice
-speed = 08; // Ajuste a velocidade de voo conforme preferir
+// Velocidade de voo
+speed = 8; 
+
+// Proteção contra múltiplas colisões seguidas (Cooldown)
+pode_ricochetear = true;

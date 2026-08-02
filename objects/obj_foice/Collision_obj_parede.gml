@@ -1,14 +1,20 @@
-// 1. Executa o ricochete automático com base na física das superfícies sólidas
-// O parâmetro 'true' (advance) faz a foice avançar um pouco para não ficar "fresa/travada" dentro da parede.
-move_bounce_solid(true);
+// Só processa a batida se a proteção estiver liberada
+if (pode_ricochetear) {
+    
+    // 1. Executa o ricochete
+    move_bounce_solid(true);
 
-// 2. Decrementa o contador de ricochetes
-bounces_left--;
+    // 2. Decrementa 1 ricochete
+    bounces_left--;
 
-// 3. Efeito opcional: Tocar som de impacto metálico
-// audio_play_sound(snd_metal_hit, 1, false);
+    // 3. Ativa o bloqueio temporário
+    pode_ricochetear = false;
+    
+    // Libera para poder ricochetear de novo após 3 frames (tempo para sair de dentro da parede)
+    alarm[0] = 3;
 
-// 4. Se gastou todos os ricochetes e não acertou o objetivo, a tentativa falhou
-if (bounces_left <= 0) {
-    instance_destroy();
+    // 4. Se gastou todos os ricochetes, destrói a foice
+    if (bounces_left <= 0) {
+        instance_destroy();
+    }
 }

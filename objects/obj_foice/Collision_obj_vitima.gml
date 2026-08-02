@@ -7,3 +7,4 @@ if (instance_exists(obj_controle)) {
 }
 
 instance_destroy(); // Destrói a foice
+

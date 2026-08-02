@@ -1,28 +1,25 @@
-// A armadilha esmagou a vítima!
-show_debug_message("VÍTIMA ELIMINADA COM SUCESSO!");
-
-
 if (caindo) {
-    // Spawna os estilhaços
-    repeat (4) {
+    // 1. Spawna a vítima morta no mesmo local e na mesma direção
+    if (instance_exists(other)) {
+        var _corpo = instance_create_layer(other.x, other.y, "Instances", obj_vitima_morta);
+        _corpo.image_xscale = other.image_xscale;
+        
+        instance_destroy(other);
+    }
+
+    // 2. Criar estilhaços
+    repeat (8) {
         instance_create_layer(x, y, "Instances", obj_estilhaco);
     }
     
-    // Elimina a vítima
-    with (other) {
-        // Pode acionar sprite de derrota ou sangue aqui
-        instance_destroy();
+    // 3. Marca Vitória no controle
+    if (instance_exists(obj_controle)) {
+        obj_controle.vitoria = true;
     }
+
+    // 4. Hitstop (Pausa dramática de impacto)
+    global.scr_hitstop(4);
     
-    // Destrói o lustre
+    // 5. Destrói a armadilha ao impactar
     instance_destroy();
-}
-
-
-// Chama a transição de fase ou avisa o obj_controle
-if (instance_exists(obj_controle)) {
-    // Exemplo: room_goto_next(); ou aciona timer de vitória
-   // room_goto_next();
-	
-	//room_restart(); // Por enquanto reinicia para testar
 }

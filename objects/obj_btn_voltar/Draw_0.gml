@@ -1,0 +1,1 @@
+// Vazio para não desenhar no mundo do jogo (apenas na GUI)
