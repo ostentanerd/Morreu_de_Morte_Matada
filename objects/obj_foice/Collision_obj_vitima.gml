@@ -1,10 +1,13 @@
-// A Morte não pode matar diretamente com a foice!
-show_debug_message("VOCÊ PERDEU: A foice encostou na vítima!");
+var _xx = other.x;
+var _yy = other.y;
+var _xscale = other.image_xscale;
+var _layer = other.layer;
 
-// A Morte não pode acertar o alvo diretamente!
-if (instance_exists(obj_controle)) {
-    obj_controle.game_over = true;
-}
+instance_destroy(other);
+
+// Cria a vítima morta e define que foi por ERRO (Derrota)
+var _morta = instance_create_layer(_xx, _yy, _layer, obj_vitima_morta);
+_morta.image_xscale = _xscale;
+_morta.causa_morta = "derrota"; 
 
 instance_destroy(); // Destrói a foice
-

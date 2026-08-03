@@ -1,4 +1,4 @@
-// Singleton - Destrói cópias
+// Singleton - Destrói cópias duplicadas
 if (instance_number(object_index) > 1) {
     instance_destroy();
     exit;
@@ -7,32 +7,71 @@ if (instance_number(object_index) > 1) {
 persistent = true;
 
 // Configuração do Gamepad
-gamepad_slot = -1; // -1 indica que nenhum gamepad foi detectado ainda
+gamepad_slot = -1; 
 
-// Procura por um gamepad já conectado ao iniciar
-for (var i = 0; i < gamepad_get_device_count(); i++) {
-    if (gamepad_is_connected(i)) {
-        gamepad_slot = i;
-        gamepad_set_axis_deadzone(gamepad_slot, 0.25);
-        break;
+// Procura o controle na porta 0 primeiro (onde o Xbox fica na maioria dos PCs)
+if (gamepad_is_connected(0)) {
+    gamepad_slot = 0;
+} else {
+    // Se não estiver na 0, varre as outras portas
+    for (var i = 0; i < gamepad_get_device_count(); i++) {
+        if (gamepad_is_connected(i)) {
+            gamepad_slot = i;
+            break;
+        }
     }
 }
 
-// -------------------------------------------------------------
-// ESTADOS DE INPUT (Acessados pelos outros objetos)
-// -------------------------------------------------------------
-aim_angle    = 0;       // Ângulo da mira em graus (0 a 360)
-input_aim    = false;   // Se está segurando o botão de mirar
-input_shoot  = false;   // Se soltou o botão para lançar
-input_reset  = false;   // Se apertou o botão de reiniciar a fase (R no Teclado)
-input_next   = false;   // Se apertou o botão de avançar de fase (E no Teclado)
-input_voltar = false;   // <<< ADICIONE ESTA LINHA (Botão B no Xbox / ESC)
+if (gamepad_slot != -1) {
+    // Zona morta maior para evitar drift do analógico
+    gamepad_set_axis_deadzone(gamepad_slot, 0.35);
+}
 
-// Posição de origem para cálculo de mira
+// Estados de Input
+aim_angle    = 0;       
+input_aim    = false;   
+input_shoot  = false;   
+input_reset  = false;   
+input_next   = false;   
+input_voltar = false;   
+
 origin_x = x;
 origin_y = y;
 
-// Controle de movimento do mouse (para alternância de dispositivo)
 last_mouse_x = mouse_x;
 last_mouse_y = mouse_y;
 using_gamepad = false;
+
+image_speed = 0; // Impede a sprite de piscar
+mouse_em_cima = false;
+
+// Variável para garantir que o comando do controle não seja lido múltiplas vezes
+pode_clicar_controle = true;
+
+// VARIÁVEIS GLOBAIS PARA O SISTEMA DE TROCA DE TECLAS (REBIND)
+if (!variable_global_exists("key_shoot")) {
+    global.key_shoot  = vk_space;       
+    global.key_reset  = ord("R");       // Padrão: R
+    global.key_next   = ord("E");       // Padrão: E
+    global.key_voltar = vk_escape;      
+    
+    global.gp_shoot   = gp_shoulderrb;  
+    global.gp_reset   = gp_face2;       // Botão B
+    global.gp_next    = gp_face1;       // Botão A
+    global.gp_voltar  = gp_select;      
+    
+    // Carrega se houver arquivo salvo
+    if (file_exists("config_controles.ini")) {
+        ini_open("config_controles.ini");
+        global.key_shoot  = ini_read_real("Controles", "key_shoot", vk_space);
+        global.key_reset  = ini_read_real("Controles", "key_reset", ord("R"));
+        global.key_next   = ini_read_real("Controles", "key_next", ord("E"));
+        global.key_voltar = ini_read_real("Controles", "key_voltar", vk_escape);
+        
+        global.gp_shoot   = ini_read_real("Controles", "gp_shoot", gp_shoulderrb);
+        global.gp_reset   = ini_read_real("Controles", "gp_reset", gp_face2);
+        global.gp_next    = ini_read_real("Controles", "gp_next", gp_face1);
+        global.gp_voltar  = ini_read_real("Contresol", "gp_voltar", gp_select);
+        ini_close();
+    }
+}

@@ -4,7 +4,18 @@ var _baixo = keyboard_check_pressed(vk_down) || keyboard_check_pressed(ord("S"))
 var _enter = keyboard_check_pressed(vk_enter) || keyboard_check_pressed(vk_space);
 
 if (instance_exists(obj_joystick)) {
+    // Confirma com o botão 'A' do controle
     _enter = _enter || obj_joystick.input_next;
+    
+    // ADICIONADO: Permite subir e descer no menu usando o D-pad ou Analógico Esquerdo do controle
+    var _pad = obj_joystick.gamepad_slot;
+    if (_pad != -1 && gamepad_is_connected(_pad)) {
+        var _gp_cima  = gamepad_button_check_pressed(_pad, gp_padu) || (gamepad_axis_value(_pad, gp_axislv) < -0.5);
+        var _gp_baixo = gamepad_button_check_pressed(_pad, gp_padd) || (gamepad_axis_value(_pad, gp_axislv) > 0.5);
+        
+        _cima  = _cima  || _gp_cima;
+        _baixo = _baixo || _gp_baixo;
+    }
 }
 
 if (_cima) {
@@ -16,7 +27,6 @@ if (_baixo) {
     index++;
     if (index >= array_length(opcoes)) index = 0;
 }
-
 // --------------------------------------------------------
 // 2. NAVEGAÇÃO E CLIQUE PELO MOUSE
 // --------------------------------------------------------
@@ -98,8 +108,12 @@ if (_enter) {
         case 2: // SELECIONAR FASE
             room_goto(rm_selecao_fases);
             break;
+
+        case 3: // CONTROLES (Abre a room de remapeamento de teclas que criamos)
+            room_goto(rm_controles);
+            break;
             
-        case 3: // SAIR
+        case 4: // SAIR
             game_end();
             break;
     }

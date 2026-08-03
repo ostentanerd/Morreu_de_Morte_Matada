@@ -1,9 +1,9 @@
-opcoes = ["CONTINUAR", "NOVO JOGO", "SELECIONAR FASE", "SAIR"];
+opcoes = ["CONTINUAR", "NOVO JOGO", "SELECIONAR FASE", "CONTROLES", "SAIR"]; // <--- Adicionada a opção de Controles
 index = 0; // Opção selecionada
 
-// Array para controlar a animação de escala (crescer/encolher) de cada botão
-escala_opcoes = [1, 1, 1, 1]; 
+// Array para controlar a animação de escala (crescer/encolher) de cada botão (agora com 5 itens)
+escala_opcoes = [1, 1, 1, 1, 1]; 
 
 // Configuração de layout
-y_inicial = 100; // Posição Y da primeira opção
-espacamento = 30; // Distância vertical entre as opções
+y_inicial = 120; // Posição Y da primeira opção
+espacamento = 50; // Distância vertical entre as opções

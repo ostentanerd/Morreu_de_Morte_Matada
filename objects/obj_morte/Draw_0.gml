@@ -10,16 +10,6 @@ if (instance_exists(obj_joystick)) {
         _bloqueado = obj_controle.game_over || obj_controle.vitoria || obj_controle.em_loading;
     }
     
-    // SÓ DESENHA A LINHA VERMELHA SE ESTIVER MIRANDO E NÃO ESTIVER BLOQUEADO
-    if (obj_joystick.input_aim && !_bloqueado) {
-        var _dir = obj_joystick.aim_angle;
-        var _target_x = x + lengthdir_x(250, _dir);
-        var _target_y = y + lengthdir_y(250, _dir);
-        
-        draw_set_color(c_red);
-        draw_line_width(x, y, _target_x, _target_y, 2);
-        
-        // Sempre reseta a cor para c_white após desenhar linhas ou formas
-        draw_set_color(c_white);
-    }
+    // O bloco abaixo desenhava a linha vermelha. Ele foi removido.
+    // Agora, nada de visual relacionado à mira é desenhado aqui.
 }

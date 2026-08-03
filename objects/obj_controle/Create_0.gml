@@ -57,3 +57,24 @@ global.scr_hitstop = function(_frames) {
 var _escala = 4;
 window_set_size(384 * _escala, 216 * _escala);
 alarm[0] = 1; // Alarme para centralizar a tela
+
+
+// Garante que o sorteio seja diferente toda vez que você abrir o jogo
+randomize(); 
+
+// Variável para guardar qual arte vai aparecer no loading atual
+arte_escolhida = -1;
+
+
+alpha_loading = 0; // Controla a transparência da tela de carregamento (0 = invisível, 1 = visível)
+
+
+// Garante que o sorteio seja diferente toda vez que você abrir o jogo
+randomize(); 
+
+// Variável para guardar qual arte vai aparecer no loading atual
+arte_escolhida = -1;
+alpha_loading = 0; // Controla a transparência da tela de carregamento
+dica_escolhida = "DICA: Explore bem as gavetas e cômodas."; // GUARDA O TEXTO DA DICA SORTEADA
+
+

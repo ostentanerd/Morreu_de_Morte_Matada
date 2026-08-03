@@ -20,67 +20,108 @@ if (instance_exists(obj_joystick)) {
         room_restart();
     }
     
-    // Avançar de Fase ao Vencer
+  // Avançar de Fase ao Vencer
     if (vitoria && !em_loading) {
         if (obj_joystick.input_next) { 
             vitoria = false;
             em_loading = true;
-            loading_timer = 60;
+            loading_timer = 240; 
+            alpha_loading = 0; 
             obj_joystick.input_next = false;
             io_clear();
+            
+            // Sorteio da Arte
+            var _lista_de_artes = [spr_arte1, spr_arte2, spr_arte3];
+            var _index_sorteado = irandom(array_length(_lista_de_artes) - 1);
+            arte_escolhida = _lista_de_artes[_index_sorteado];
+            
+            // SORTEIO DA DICA (Garanta que isso está aqui dentro!)
+            var _sorteio = irandom(2);
+            switch(_sorteio) {
+                case 0: dica_escolhida = "DICA: Explore bem as gavetas e cômodas."; break;
+                case 1: dica_escolhida = "DICA: Pague o engenheiro para subir o nível das barricadas."; break;
+                case 2: dica_escolhida = "DICA: Você pode atirar enquanto estiver na escada."; break;
+            }
         }
     }
 }
 
 // 2. SISTEMA DE TRANSIÇÃO, DESBLOQUEIO DE FASE E TELA DE CRÉDITOS
 if (em_loading) {
+    
+    // 👇 ADICIONE ESTA TRAVA DE SEGURANÇA AQUI EMBAIXO 👇
+    if (dica_escolhida == "") {
+        var _sorteio = irandom(2);
+        switch(_sorteio) {
+            case 0: dica_escolhida = "DICA: Explore bem as gavetas e cômodas."; break;
+            case 1: dica_escolhida = "DICA: Pague o engenheiro para subir o nível das barricadas."; break;
+            case 2: dica_escolhida = "DICA: Você pode atirar enquanto estiver na escada."; break;
+        }
+    }
+    
     loading_timer--;
     
-    if (loading_timer <= 0) {
-        em_loading = false;
+    // FADE IN: Primeira metade do tempo (Aparecendo)
+    if (loading_timer > 120) {
+        alpha_loading += 0.02; // Aumenta a opacidade
+        if (alpha_loading > 1) alpha_loading = 1; // Trava no máximo
+    } 
+    // FADE OUT: Segunda metade do tempo (Sumindo)
+    else {
+        alpha_loading -= 0.02; // Diminui a opacidade
+        if (alpha_loading < 0) alpha_loading = 0; // Trava no mínimo
+    }
+    
+    // EXATAMENTE NA METADE DO TEMPO: Ocorre a troca de sala (escondida pelo Alpha em 1.0)
+    if (loading_timer == 120) {
         
-        // Pega o nome da sala atual
-        var _nome_sala = room_get_name(room);
-        var _numero_str = string_digits(_nome_sala);
+        // Se foi acionado por um botão de fase do menu, vai para a sala do botão
+        if (variable_global_exists("room_alvo_botao") || variable_instance_exists(id, "room_alvo_botao")) {
+            // Nota: Se preferir, tratamos direto abaixo
+        }
         
-        // Verifica se a sala é uma fase (se tem número no nome)
-        if (_numero_str != "") {
-            var _fase_atual_num = real(_numero_str);
-            var _proxima_fase_num = _fase_atual_num + 1;
+        // Verificação padrão de fase ou botão
+        if (variable_instance_exists(id, "room_alvo_botao") && room_alvo_botao != undefined) {
+            room_goto(room_alvo_botao);
+            room_alvo_botao = undefined; // Reseta
+        } 
+        else {
+            // Segue a lógica normal de avanço de fase por vitória...
+            var _nome_sala = room_get_name(room);
+            var _numero_str = string_digits(_nome_sala);
             
-            // ---------------------------------------------------
-            // CHECA SE É A ÚLTIMA FASE (FASE 5)
-            // ---------------------------------------------------
-            if (_fase_atual_num == 5) {
+            if (_numero_str != "") {
+                var _fase_atual_num = real(_numero_str);
+                var _proxima_fase_num = _fase_atual_num + 1;
                 
-                // Manda para a tela de créditos!
-                room_goto(rm_creditos);
-                
-            } else {
-                // SE FOR UMA FASE NORMAL (1, 2, 3, 4)...
-                
-                // Salva o progresso se bateu o recorde
-                if (_proxima_fase_num > fase_maxima) {
-                    fase_maxima = _proxima_fase_num;
-                    scr_salvar_jogo(); 
-                }
-                
-                // Carrega a próxima fase pelo nome exato (rm_fase2, rm_fase3...)
-                var _proxima_sala = asset_get_index("rm_fase" + string(_proxima_fase_num));
-                if (_proxima_sala != -1) {
-                    room_goto(_proxima_sala);
+                if (_fase_atual_num == 5) {
+                    room_goto(rm_creditos);
                 } else {
-                    room_goto(rm_selecao_fases); // Prevenção de erro
+                    if (_proxima_fase_num > fase_maxima) {
+                        fase_maxima = _proxima_fase_num;
+                        scr_salvar_jogo(); 
+                    }
+                    
+                    var _proxima_sala = asset_get_index("rm_fase" + string(_proxima_fase_num));
+                    if (_proxima_sala != -1) {
+                        room_goto(_proxima_sala);
+                    } else {
+                        room_goto(rm_selecao_fases);
+                    }
                 }
-            }
-        } else {
-            // Se a sala não tem número (ex: tutorial), só vai pra próxima sala genérica
-            if (room_next(room) != -1) {
-                room_goto_next();
             } else {
-                room_goto(rm_selecao_fases);
+                if (room_next(room) != -1) {
+                    room_goto_next();
+                } else {
+                    room_goto(rm_selecao_fases);
+                }
             }
         }
+    }
+    
+    // FINALIZA O LOADING QUANDO O TIMER ZERAR
+    if (loading_timer <= 0) {
+        em_loading = false;
     }
 }
 

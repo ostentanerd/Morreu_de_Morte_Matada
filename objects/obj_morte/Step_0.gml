@@ -12,6 +12,7 @@ if (instance_exists(obj_joystick)) {
             if (!instance_exists(obj_foice)) {
                 var _foice = instance_create_layer(x, y, "Instances", obj_foice);
                 _foice.direction = obj_joystick.aim_angle;
+                _foice.image_angle = obj_joystick.aim_angle; // <--- ADICIONE ESTA LINHA PARA A FOICE GIRAR VISUALMENTE
                 _foice.speed = 12;
                 
                 // Consome o tiro para não disparar no mesmo frame novamente

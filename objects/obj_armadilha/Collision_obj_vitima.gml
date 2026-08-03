@@ -4,6 +4,9 @@ if (caindo) {
         var _corpo = instance_create_layer(other.x, other.y, "Instances", obj_vitima_morta);
         _corpo.image_xscale = other.image_xscale;
         
+        // Define que a causa da morte foi o alvo correto (Vitória)
+        _corpo.causa_morta = "vitoria"; 
+        
         instance_destroy(other);
     }
 
@@ -12,10 +15,8 @@ if (caindo) {
         instance_create_layer(x, y, "Instances", obj_estilhaco);
     }
     
-    // 3. Marca Vitória no controle
-    if (instance_exists(obj_controle)) {
-        obj_controle.vitoria = true;
-    }
+    // (O "obj_controle.vitoria = true;" foi removido daqui para 
+    // deixar a animação da vítima rodar primeiro!)
 
     // 4. Hitstop (Pausa dramática de impacto)
     global.scr_hitstop(4);
