@@ -1,3 +1,6 @@
+// A vela só conta como 'ativa' enquanto estiver caindo/voando
+esta_ativa = caindo;
+
 // Se a corda foi cortada, a armadilha cai
 if (caindo) {
     vsp += gravidade;

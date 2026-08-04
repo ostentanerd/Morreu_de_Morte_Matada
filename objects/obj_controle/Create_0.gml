@@ -1,3 +1,7 @@
+
+// Trava para só checar derrota após o jogador arremessar a foice
+foice_lancada = false;
+
 // -------------------------------------------------------------
 // TRAVA DE SEGURANÇA: Evita duplicar o obj_controle
 // -------------------------------------------------------------
@@ -7,8 +11,6 @@ if (instance_number(object_index) > 1) {
 }
 
 persistent = true;
-
-
 
 // Esconde o cursor padrão do Windows
 window_set_cursor(cr_none);
@@ -58,23 +60,10 @@ var _escala = 4;
 window_set_size(384 * _escala, 216 * _escala);
 alarm[0] = 1; // Alarme para centralizar a tela
 
-
-// Garante que o sorteio seja diferente toda vez que você abrir o jogo
-randomize(); 
-
-// Variável para guardar qual arte vai aparecer no loading atual
+// -------------------------------------------------------------
+// CONFIGURAÇÕES DE DICAS E TELA DE LOADING
+// -------------------------------------------------------------
+randomize(); // Garante sorteios aleatórios únicos a cada execução
 arte_escolhida = -1;
-
-
-alpha_loading = 0; // Controla a transparência da tela de carregamento (0 = invisível, 1 = visível)
-
-
-// Garante que o sorteio seja diferente toda vez que você abrir o jogo
-randomize(); 
-
-// Variável para guardar qual arte vai aparecer no loading atual
-arte_escolhida = -1;
-alpha_loading = 0; // Controla a transparência da tela de carregamento
-dica_escolhida = "DICA: Explore bem as gavetas e cômodas."; // GUARDA O TEXTO DA DICA SORTEADA
-
-
+alpha_loading  = 0;
+dica_escolhida = "DICA: Explore bem as gavetas e cômodas.";

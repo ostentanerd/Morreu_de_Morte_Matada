@@ -15,11 +15,11 @@ draw_set_halign(fa_center);
 draw_set_valign(fa_middle);
 
 // TRAVA A FONTE DO BOTÃO: Garante que ele nunca use a fonte grande de dica/loading
-draw_set_font(fnt_menu); // <--- Troque "fnt_padrao" pelo nome da fonte normal do seu jogo
+draw_set_font(fnt_menu_controle); // <--- Troque "fnt_padrao" pelo nome da fonte normal do seu jogo
 
 if (bloqueado) {
     draw_set_color(c_red);
-    draw_text(x, y, "X");
+    draw_text(x, y, "");
 } else {
     draw_set_color(c_white);
     draw_text(x, y, string(numero_fase));

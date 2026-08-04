@@ -1,7 +1,7 @@
 // 1. Navegação via Teclado / Gamepad
 var _cima  = keyboard_check_pressed(vk_up)   || keyboard_check_pressed(ord("W"));
 var _baixo = keyboard_check_pressed(vk_down) || keyboard_check_pressed(ord("S"));
-var _enter = keyboard_check_pressed(vk_enter) || keyboard_check_pressed(vk_space);
+var _enter = keyboard_check_pressed(ord("E")) || keyboard_check_pressed(vk_space);
 
 if (instance_exists(obj_joystick)) {
     // Confirma com o botão 'A' do controle

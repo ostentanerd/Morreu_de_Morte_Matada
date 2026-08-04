@@ -119,8 +119,8 @@
   "maintainGms1Font":false,
   "name":"fnt_volta",
   "parent":{
-    "name":"Morreu de Morte Matada",
-    "path":"Morreu de Morte Matada.yyp",
+    "name":"Fontes",
+    "path":"folders/Fontes.yy",
   },
   "pointRounding":0,
   "ranges":[

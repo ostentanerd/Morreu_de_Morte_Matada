@@ -43,10 +43,14 @@ for (var i = 0; i < array_length(menu_opcoes); i++) {
         draw_text(_cx, _y_atual, menu_opcoes[i] + ": " + _txt_tecla);
     }
 }
+var _centro_x = room_width / 2;
+var _titulo_y = 180;
 
 // Rodapé na parte inferior da tela (travado em inteiro)
-draw_set_color(c_gray);
-draw_text(_cx, floor(170), "Setas + ENTER | ESC para voltar");
+draw_set_color(c_white);
+var _titulo_escala = 0.6; // Título bem maior que o resto
+draw_text_transformed(_centro_x, _titulo_y, "Setas + ENTER | ESC para voltar", _titulo_escala, _titulo_escala, 0);
+//draw_text(_cx, floor(100), "Setas + ENTER | ESC para voltar");
 
 draw_set_halign(fa_left);
 draw_set_valign(fa_top);

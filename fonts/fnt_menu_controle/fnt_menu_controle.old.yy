@@ -203,7 +203,7 @@
     "253":{"character":253,"h":22,"offset":0,"shift":9,"w":9,"x":167,"y":50,},
     "254":{"character":254,"h":22,"offset":1,"shift":10,"w":8,"x":178,"y":50,},
     "255":{"character":255,"h":22,"offset":0,"shift":9,"w":9,"x":135,"y":170,},
-    "9647":{"character":9647,"h":22,"offset":4,"shift":18,"w":11,"x":146,"y":170,},
+    "9647":{"character":9647,"h":22,"offset":3,"shift":18,"w":11,"x":146,"y":170,},
   },
   "hinting":0,
   "includeTTF":false,
@@ -215,8 +215,8 @@
   "maintainGms1Font":false,
   "name":"fnt_menu_controle",
   "parent":{
-    "name":"Morreu de Morte Matada",
-    "path":"Morreu de Morte Matada.yyp",
+    "name":"Fontes",
+    "path":"folders/Fontes.yy",
   },
   "pointRounding":0,
   "ranges":[

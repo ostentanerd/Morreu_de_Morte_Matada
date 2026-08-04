@@ -215,8 +215,8 @@
   "maintainGms1Font":false,
   "name":"fnt_dica",
   "parent":{
-    "name":"Morreu de Morte Matada",
-    "path":"Morreu de Morte Matada.yyp",
+    "name":"Fontes",
+    "path":"folders/Fontes.yy",
   },
   "pointRounding":0,
   "ranges":[

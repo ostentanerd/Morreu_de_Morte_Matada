@@ -7,7 +7,7 @@ if (hitstop_timer > 0) {
     game_set_speed(60, gamespeed_fps);
 }
 
-// 1. INPUTS VIA JOYSTICK
+// 1. INPUTS VIA JOYSTICK E TECLADO
 if (instance_exists(obj_joystick)) {
     mira_frame = obj_joystick.input_aim ? 1 : 0;
     
@@ -20,7 +20,7 @@ if (instance_exists(obj_joystick)) {
         room_restart();
     }
     
-  // Avançar de Fase ao Vencer
+    // Avançar de Fase ao Vencer
     if (vitoria && !em_loading) {
         if (obj_joystick.input_next) { 
             vitoria = false;
@@ -35,7 +35,7 @@ if (instance_exists(obj_joystick)) {
             var _index_sorteado = irandom(array_length(_lista_de_artes) - 1);
             arte_escolhida = _lista_de_artes[_index_sorteado];
             
-            // SORTEIO DA DICA (Garanta que isso está aqui dentro!)
+            // Sorteio da Dica
             var _sorteio = irandom(2);
             switch(_sorteio) {
                 case 0: dica_escolhida = "DICA: Explore bem as gavetas e cômodas."; break;
@@ -46,10 +46,44 @@ if (instance_exists(obj_joystick)) {
     }
 }
 
+// -------------------------------------------------------------
+// 1.4 DETECTA SE A FOICE FOI LANÇADA
+// -------------------------------------------------------------
+if (instance_exists(obj_foice)) {
+    foice_lancada = true;
+}
+
+// -------------------------------------------------------------
+// 1.5 CHECAGEM INTELIGENTE DE DERROTA (USANDO OBJETO PAI)
+// -------------------------------------------------------------
+if (!game_over && !vitoria && !em_loading && foice_lancada) {
+    
+    // 1. Só avalia se a foice já não existe mais na tela
+    if (!instance_exists(obj_foice)) {
+        
+        // 2. Procura se existe QUALQUER armadilha filha ativa no momento
+        var _tem_armadilha_ativa = false;
+        
+        with (obj_armadilha_pai) {
+            if (variable_instance_exists(id, "esta_ativa") && esta_ativa) {
+                _tem_armadilha_ativa = true;
+                break; // Encontrou uma ativa, para o loop imediatamente
+            }
+        }
+        
+        // 3. Se nenhuma armadilha estiver em ação e a vítima sobrou = DERROTA
+        if (!_tem_armadilha_ativa) {
+            if (instance_exists(obj_vitima)) {
+                game_over = true;
+            }
+        }
+    }
+}
+
 // 2. SISTEMA DE TRANSIÇÃO, DESBLOQUEIO DE FASE E TELA DE CRÉDITOS
 if (em_loading) {
     
-    // 👇 ADICIONE ESTA TRAVA DE SEGURANÇA AQUI EMBAIXO 👇
+    // Trava de segurança para a dica
     if (dica_escolhida == "") {
         var _sorteio = irandom(2);
         switch(_sorteio) {
@@ -63,30 +97,23 @@ if (em_loading) {
     
     // FADE IN: Primeira metade do tempo (Aparecendo)
     if (loading_timer > 120) {
-        alpha_loading += 0.02; // Aumenta a opacidade
-        if (alpha_loading > 1) alpha_loading = 1; // Trava no máximo
+        alpha_loading += 0.02; 
+        if (alpha_loading > 1) alpha_loading = 1; 
     } 
     // FADE OUT: Segunda metade do tempo (Sumindo)
     else {
-        alpha_loading -= 0.02; // Diminui a opacidade
-        if (alpha_loading < 0) alpha_loading = 0; // Trava no mínimo
+        alpha_loading -= 0.02; 
+        if (alpha_loading < 0) alpha_loading = 0; 
     }
     
-    // EXATAMENTE NA METADE DO TEMPO: Ocorre a troca de sala (escondida pelo Alpha em 1.0)
+    // EXATAMENTE NA METADE DO TEMPO: Troca de sala
     if (loading_timer == 120) {
         
-        // Se foi acionado por um botão de fase do menu, vai para a sala do botão
-        if (variable_global_exists("room_alvo_botao") || variable_instance_exists(id, "room_alvo_botao")) {
-            // Nota: Se preferir, tratamos direto abaixo
-        }
-        
-        // Verificação padrão de fase ou botão
         if (variable_instance_exists(id, "room_alvo_botao") && room_alvo_botao != undefined) {
             room_goto(room_alvo_botao);
-            room_alvo_botao = undefined; // Reseta
+            room_alvo_botao = undefined; 
         } 
         else {
-            // Segue a lógica normal de avanço de fase por vitória...
             var _nome_sala = room_get_name(room);
             var _numero_str = string_digits(_nome_sala);
             

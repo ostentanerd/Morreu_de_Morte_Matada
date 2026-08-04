@@ -1,6 +1,10 @@
+// 1. Desenha a sprite da sombra com 40% de transparência
+draw_sprite_ext(spr_sombra, 0, x, y + 18, 1, 1, 0, c_white, 0.4);
+
+// 2. Desenha o personagem por cima
 draw_self();
 
-if (instance_exists(obj_joystick)) {
+/*if (instance_exists(obj_joystick)) {
     
     // Verifica se a mira deve ser bloqueada
     var _bloqueado = false;

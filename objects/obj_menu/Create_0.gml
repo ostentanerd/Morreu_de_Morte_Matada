@@ -5,5 +5,5 @@ index = 0; // Opção selecionada
 escala_opcoes = [1, 1, 1, 1, 1]; 
 
 // Configuração de layout
-y_inicial = 120; // Posição Y da primeira opção
-espacamento = 50; // Distância vertical entre as opções
+y_inicial = 90; // Posição Y da primeira opção
+espacamento = 18; // Distância vertical entre as opções
