@@ -23,23 +23,26 @@ if (instance_exists(obj_joystick)) {
 
     // Só permite atirar se NADA estiver bloqueado
     if (!_bloqueado) {
-        if (obj_joystick.input_shoot) {
-            if (!instance_exists(obj_foice)) {
-                
-                // Cria a foice
-                var _foice = instance_create_layer(x, y, "Instances", obj_foice);
-                _foice.direction = _angle;
-                _foice.image_angle = _angle;
-                _foice.speed = 08;
-
-                // TRAVA DEFINITIVA: Avisa o controle que o tiro único da rodada já foi usado!
-                if (instance_exists(obj_controle)) {
-                    obj_controle.foice_lancada = true;
-                }
-
-                // Consome o botão de tiro
-                obj_joystick.input_shoot = false;
-            }
-        }
+        // Dentro da lógica de tiro do obj_morte:
+		if (obj_joystick.input_shoot) {
+		    if (!instance_exists(obj_foice)) {
+		        
+		        var _foice = instance_create_layer(x, y, "Instances", obj_foice);
+		        _foice.direction = _angle;
+		        _foice.image_angle = _angle;
+		        _foice.speed = 12;
+		
+		        // --- CHAME O SOM AQUI ---
+		        if (instance_exists(obj_audio)) {
+		            obj_audio.tocar_sfx(snd_foice_tiro);
+		        }
+		
+		        if (instance_exists(obj_controle)) {
+		            obj_controle.foice_lancada = true;
+		        }
+		
+		        obj_joystick.input_shoot = false;
+		    }
+		}
     }
 }

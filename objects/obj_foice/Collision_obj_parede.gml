@@ -1,17 +1,17 @@
-// Só processa a batida se a proteção estiver liberada
+// Dentro do evento de colisão da obj_foice com a parede (ou no script de ricochete):
 if (pode_ricochetear) {
     
-    // 1. Executa o ricochete
-    move_bounce_solid(true);
-
-    // 2. Decrementa 1 ricochete
-    bounces_left--;
-
-    // 3. Ativa o bloqueio temporário
-    pode_ricochetear = false;
+    move_bounce_solid(true); // Exemplo da sua física de rebate
     
-    // Libera para poder ricochetear de novo após 3 frames (tempo para sair de dentro da parede)
-    alarm[0] = 3;
+    // --- CHAME O SOM AQUI ---
+    if (instance_exists(obj_audio)) {
+        obj_audio.tocar_sfx(snd_ricochete);
+    }
+    
+    bounces_left--;
+    pode_ricochetear = false;
+    alarm[0] = 5; // Cooldown
+
 
     // 4. Se gastou todos os ricochetes, destrói a foice
     if (bounces_left <= 0) {

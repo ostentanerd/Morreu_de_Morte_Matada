@@ -1,3 +1,11 @@
+// No Room Start Event do obj_controle:
+if (instance_exists(obj_audio)) {
+    obj_audio.tocar_musica(snd_musica_fase_01);
+}
+
+
+
+
 game_over     = false;
 vitoria       = false;
 em_loading    = false;

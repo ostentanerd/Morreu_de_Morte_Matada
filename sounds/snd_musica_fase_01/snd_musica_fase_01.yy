@@ -1,0 +1,26 @@
+{
+  "$GMSound":"v2",
+  "%Name":"snd_musica_fase_01",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "channelFormat":0,
+  "compression":0,
+  "compressionQuality":4,
+  "conversionMode":0,
+  "duration":273.01877,
+  "exportDir":"",
+  "name":"snd_musica_fase_01",
+  "parent":{
+    "name":"Morreu de Morte Matada",
+    "path":"Morreu de Morte Matada.yyp",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"snd_musica_fase_01.mp3",
+  "volume":0.56,
+}
