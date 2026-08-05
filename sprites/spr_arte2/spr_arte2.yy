@@ -25,8 +25,8 @@
   "nineSlice":null,
   "origin":7,
   "parent":{
-    "name":"Sprite",
-    "path":"folders/Sprite.yy",
+    "name":"Tela_Loading",
+    "path":"folders/Sprite/Tela_Loading.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

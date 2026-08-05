@@ -1,4 +1,7 @@
 
+// Timer de tolerância para dar tempo da armadilha ativar após a foice sumir
+timer_derrota = 0;
+
 // Trava para só checar derrota após o jogador arremessar a foice
 foice_lancada = false;
 

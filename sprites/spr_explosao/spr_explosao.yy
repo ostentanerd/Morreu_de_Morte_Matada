@@ -30,8 +30,8 @@
   "nineSlice":null,
   "origin":7,
   "parent":{
-    "name":"Sprite",
-    "path":"folders/Sprite.yy",
+    "name":"Armadilhas",
+    "path":"folders/Sprite/Armadilhas.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

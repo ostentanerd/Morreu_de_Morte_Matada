@@ -26,8 +26,8 @@
   "nineSlice":null,
   "origin":7,
   "parent":{
-    "name":"Sprite",
-    "path":"folders/Sprite.yy",
+    "name":"Vitima",
+    "path":"folders/Sprite/Vitima.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

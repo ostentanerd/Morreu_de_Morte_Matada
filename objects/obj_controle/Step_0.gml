@@ -54,7 +54,7 @@ if (instance_exists(obj_foice)) {
 }
 
 // -------------------------------------------------------------
-// 1.5 CHECAGEM INTELIGENTE DE DERROTA (USANDO OBJETO PAI)
+// 1.5 CHECAGEM INTELIGENTE DE DERROTA (COM TOLERÂNCIA DE TEMPO)
 // -------------------------------------------------------------
 if (!game_over && !vitoria && !em_loading && foice_lancada) {
     
@@ -67,16 +67,27 @@ if (!game_over && !vitoria && !em_loading && foice_lancada) {
         with (obj_armadilha_pai) {
             if (variable_instance_exists(id, "esta_ativa") && esta_ativa) {
                 _tem_armadilha_ativa = true;
-                break; // Encontrou uma ativa, para o loop imediatamente
+                break; // Encontrou uma ativa, para a busca
             }
         }
         
-        // 3. Se nenhuma armadilha estiver em ação e a vítima sobrou = DERROTA
+        // 3. Se nenhuma armadilha estiver ativa, conta o tempo de segurança
         if (!_tem_armadilha_ativa) {
-            if (instance_exists(obj_vitima)) {
-                game_over = true;
+            timer_derrota++;
+            
+            // Espera 30 frames (meio segundo) de silêncio total antes de dar Game Over
+            if (timer_derrota >= 60) {
+                if (instance_exists(obj_vitima)) {
+                    game_over = true;
+                }
             }
+        } else {
+            // Se encontrou alguma armadilha em ação, reseta o timer
+            timer_derrota = 0;
         }
+    } else {
+        // Enquanto a foice existir na tela, o timer fica zerado
+        timer_derrota = 0;
     }
 }
 

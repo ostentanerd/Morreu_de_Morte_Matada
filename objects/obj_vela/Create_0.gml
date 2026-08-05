@@ -1,3 +1,6 @@
+event_inherited(); // Mantém o que tem no pai
+
+
 caindo = false;
 hsp = 0;
 vsp = 0;

@@ -14,33 +14,11 @@ var _gui_y = device_mouse_y_to_gui(0);
 window_set_cursor(cr_none);
 
 // -------------------------------------------------------------
-// A. TELA DE GAME OVER / DERROTA
-// -------------------------------------------------------------
-if (game_over == true) {
-    draw_set_color(c_black);
-    draw_set_alpha(0.6);
-    draw_rectangle(0, 0, _gui_w, _gui_h, false);
-    draw_set_alpha(1.0);
-    
-    draw_set_halign(fa_center);
-    draw_set_valign(fa_middle);
-    
-    draw_set_font(fnt_titulo); 
-    draw_set_color(c_red);
-    draw_text(_gui_w / 2, _gui_h / 2 - 80, "ALVO ERRADO!");
-    
-    draw_set_font(fnt_dica); 
-    draw_set_color(c_white);
-    draw_text(_gui_w / 2, _gui_h / 2 + 20, "Pressione 'R' para Reiniciar");
-    
-    draw_set_halign(fa_left);
-    draw_set_valign(fa_top);
-}
-
-// -------------------------------------------------------------
-// B. TELA DE VITÓRIA
+// A. TELA DE VITÓRIA (PRIORIDADE MÁXIMA)
 // -------------------------------------------------------------
 if (vitoria == true && !em_loading) {
+    game_over = false; // Garante que a derrota seja anulada ao vencer!
+    
     draw_set_color(c_black);
     draw_set_alpha(0.6);
     draw_rectangle(0, 0, _gui_w, _gui_h, false);
@@ -56,6 +34,29 @@ if (vitoria == true && !em_loading) {
     draw_set_font(fnt_dica); 
     draw_set_color(c_white);
     draw_text(_gui_w / 2, _gui_h / 2 + 20, "Pressione 'E' para a Próxima Fase");
+    
+    draw_set_halign(fa_left);
+    draw_set_valign(fa_top);
+}
+// -------------------------------------------------------------
+// B. TELA DE GAME OVER / DERROTA (SÓ EXIBE SE NÃO HOUVER VITÓRIA)
+// -------------------------------------------------------------
+else if (game_over == true) {
+    draw_set_color(c_black);
+    draw_set_alpha(0.6);
+    draw_rectangle(0, 0, _gui_w, _gui_h, false);
+    draw_set_alpha(1.0);
+    
+    draw_set_halign(fa_center);
+    draw_set_valign(fa_middle);
+    
+    draw_set_font(fnt_titulo); 
+    draw_set_color(c_red);
+    draw_text(_gui_w / 2, _gui_h / 2 - 80, "ALVO ERRADO!");
+    
+    draw_set_font(fnt_dica); 
+    draw_set_color(c_white);
+    draw_text(_gui_w / 2, _gui_h / 2 + 20, "Pressione 'R' para Reiniciar");
     
     draw_set_halign(fa_left);
     draw_set_valign(fa_top);

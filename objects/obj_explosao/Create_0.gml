@@ -1,5 +1,10 @@
+event_inherited(); // Mantém o que tem no pai
+esta_ativa = true; // Enquanto existir, conta como ativa
+
+
+
 // Raio de alcance da explosão em pixels
-var _raio = 64;
+var _raio = 43;
 
 // Se a vítima existir e estiver no alcance da explosão
 if (instance_exists(obj_vitima)) {
