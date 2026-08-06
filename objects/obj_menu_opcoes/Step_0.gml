@@ -1,12 +1,29 @@
 var _gui_w = display_get_gui_width();
 
+// 1. TRAVA DE CLIQUE HERDADO DO MENU ANTERIOR
+if (esperando_soltar_mouse) {
+    // Se o jogador já soltou o botão do mouse, libera o menu
+    if (!device_mouse_check_button(0, mb_left)) {
+        esperando_soltar_mouse = false;
+    }
+    exit; // Ignora totalmente este frame para não registrar cliques falsos
+}
+
+// Diminui o timer de segurança adicional
+if (timer_input > 0) {
+    timer_input--;
+    exit; 
+}
+
 // 0. ATUALIZAÇÃO DA TRANSIÇÃO DE FADE
 alpha = lerp(alpha, alpha_alvo, velocidade_fade);
+
 
 if (fechando) {
     if (alpha <= 0.02) {
         if (instance_exists(obj_controle)) obj_controle.scr_salvar_opcoes();
         io_clear();
+        mouse_clear(mb_left); // Limpa o clique antes de se destruir
         instance_destroy();
     }
     exit;

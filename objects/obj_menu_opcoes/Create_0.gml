@@ -1,20 +1,19 @@
-alpha = 1;             // Começa totalmente invisível
-alpha_alvo = 1;        // Transiciona para visível
-velocidade_fade = 0.12; // Velocidade da transição
-fechando = false;       // Controla se o menu está no processo de fechar
+alpha = 1;             
+alpha_alvo = 1;        
+velocidade_fade = 0.12; 
+fechando = false;       
 
-// Lista de opções da tela
+// TRAVA DE SEGURANÇA: Exige que o jogador solte o mouse antes de aceitar novos cliques
+esperando_soltar_mouse = true; 
+timer_input = 5; 
+
 opcoes = ["MÚSICA", "SFX", "VOLTAR"];
-opc_selecionada = 0; // 0 = Música, 1 = SFX, 2 = Voltar
-
-// Trava para navegação via teclado/gamepad
+opc_selecionada = 0; 
 timer_navegacao = 0;
 
-// Estados de clique/arrasto pelo mouse
 arrastando_musica = false;
 arrastando_sfx    = false;
 
-// Configurações Globais do Layout do Menu (Ajustadas para 384x216)
 start_y     = 70;  
 espacamento = 50;  
 bar_largura = 120;

@@ -1,13 +1,20 @@
 // 0. TRAVA O MENU PRINCIPAL SE AS OPÇÕES ESTIVEREM ABERTAS
-if (instance_exists(obj_menu_opcoes)) exit;
+if (instance_exists(obj_menu_opcoes)) {
+    cooldown_input = 10; // Mantém a trava ativa enquanto as opções existirem
+    exit;
+}
 
-// --------------------------------------------------------
-// GUARDA O ÍNDICE ANTERIOR PARA CHECAR SE MUDOU
-// --------------------------------------------------------
+// Se o menu de opções acabou de fechar, espera alguns frames antes de aceitar inputs
+if (cooldown_input > 0) {
+    cooldown_input--;
+    mouse_clear(mb_left); // Limpa resíduos de clique do mouse
+    exit;
+}
+
 var _index_ant = index;
 
 // 1. INPUTS DE TECLADO / GAMEPAD
-var _cima  = keyboard_check_pressed(vk_up)   || keyboard_check_pressed(ord("W"));
+var _cima  = keyboard_check_pressed(vk_up)    || keyboard_check_pressed(ord("W"));
 var _baixo = keyboard_check_pressed(vk_down) || keyboard_check_pressed(ord("S"));
 var _enter = keyboard_check_pressed(ord("E")) || keyboard_check_pressed(vk_space);
 
@@ -34,12 +41,14 @@ if (_baixo) {
     if (index >= array_length(opcoes)) index = 0;
 }
 
-// 2. DETECÇÃO DO MOUSE
+// 2. DETECÇÃO DO MOUSE (100% alinhado com a tela via GUI)
 if (font_exists(fnt_menu)) draw_set_font(fnt_menu);
 
-var _centro_x = room_width / 2;
-var _mx = mouse_x;
-var _my = mouse_y;
+var _gui_w = display_get_gui_width();
+var _centro_x = _gui_w / 2;
+
+var _mx = device_mouse_x_to_gui(0);
+var _my = device_mouse_y_to_gui(0);
 var _clique = mouse_check_button_pressed(mb_left);
 
 for (var i = 0; i < array_length(opcoes); i++) {
@@ -55,14 +64,12 @@ for (var i = 0; i < array_length(opcoes); i++) {
     var _baixo_caixa = _y + (_altura_caixa / 2);
     
     if (_mx >= _esq && _mx <= _dir && _my >= _cima_caixa && _my <= _baixo_caixa) {
-        index = i; // Seleciona a opção apontada
+        index = i; 
         if (_clique) _enter = true;
     }
 }
 
-// --------------------------------------------------------
-// TOCAR SOM APENAS SE A SELEÇÃO MUDOU DE VERDADE
-// --------------------------------------------------------
+// TOCAR SOM SE A SELEÇÃO MUDOU
 if (index != _index_ant) {
     if (instance_exists(obj_audio)) obj_audio.tocar_sfx(snd_menu_navegar);
 }
@@ -82,11 +89,8 @@ if (_enter) {
             if (instance_exists(obj_controle)) {
                 obj_controle.scr_carregar_jogo();
                 var _fase_destino = asset_get_index("rm_fase" + string(obj_controle.fase_maxima));
-                if (_fase_destino == -1) {
-                    _fase_destino = rm_fase1; // Segurança caso a room não exista
-                }
+                if (_fase_destino == -1) _fase_destino = rm_fase1;
                 
-                // Ativa a tela de loading com a fase salva
                 obj_controle.room_alvo_botao = _fase_destino; 
                 obj_controle.em_loading = true;
                 obj_controle.loading_timer = 240;
@@ -94,35 +98,36 @@ if (_enter) {
             } else {
                 room_goto(rm_fase1);
             }
-            break;;
+            break;
             
         case 1: // NOVO JOGO
-			 if (instance_exists(obj_controle)) {
-			     // Reseta o progresso para a fase inicial
-			     obj_controle.fase_maxima = 1; 
-			     obj_controle.scr_salvar_jogo(); // Salva o jogo limpo imediatamente
-			     
-			     obj_controle.room_alvo_botao = rm_tutorial; // Define o Tutorial como destino do loading
-			     obj_controle.em_loading = true;
-			     obj_controle.loading_timer = 240;
-			     obj_controle.alpha_loading = 0;
-			 } else {
-			     room_goto(rm_tutorial); // Se não houver controle, entra direto no tutorial
-			 }
-			 break;
+            if (instance_exists(obj_controle)) {
+                obj_controle.fase_maxima = 1; 
+                obj_controle.scr_salvar_opcoes();
+                
+                obj_controle.room_alvo_botao = rm_tutorial; 
+                obj_controle.em_loading = true;
+                obj_controle.loading_timer = 240;
+                obj_controle.alpha_loading = 0;
+            } else {
+                room_goto(rm_tutorial); 
+            }
+            break;
             
         case 2: // SELECIONAR FASE
-		
             room_goto(rm_selecao_fases);
             break;
 
         case 3: // CONTROLES
+            io_clear();
+            mouse_clear(mb_left);
             room_goto(rm_controles);
             break;
 
         case 4: // OPÇÕES
-            instance_create_layer(0, 0, "Instances", obj_menu_opcoes);
             io_clear();
+            mouse_clear(mb_left);
+            instance_create_layer(0, 0, "Instances", obj_menu_opcoes);
             break;
             
         case 5: // SAIR
