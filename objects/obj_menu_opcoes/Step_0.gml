@@ -15,26 +15,34 @@ if (fechando) {
 }
 
 // -------------------------------------------------------------
-// 1. CÁLCULO DAS POSIÇÕES REAIS DAS BARRAS E TEXTOS
+// 1. DADOS DE ESCALA DAS BARRAS (Igual ao Draw GUI)
 // -------------------------------------------------------------
-var _musica_bx1 = (_gui_w / 2) - 80;
-var _musica_by1 = start_y + (0 * espacamento) - (bar_altura / 2);
+var _escala = 2.5; // DEVE SER A MESMA ESCALA USADA NO DRAW GUI
+var _spr_w = sprite_get_width(spr_barra_fundo);
+var _spr_h = sprite_get_height(spr_barra_fundo);
 
-var _sfx_bx1 = (_gui_w / 2) - 80;
-var _sfx_by1 = start_y + (1 * espacamento) - (bar_altura / 2);
+var _bar_largura_final = _spr_w * _escala;
+var _bar_altura_final  = _spr_h * _escala;
 
-// Área dinâmica da opção "VOLTAR" baseada no tamanho da fonte
+// Coordenadas exatas das barras escaladas na GUI
+var _musica_bx1 = (_gui_w / 2) - (_bar_largura_final / 2);
+var _musica_by1 = start_y + (0 * espacamento) - (_bar_altura_final / 2);
+
+var _sfx_bx1 = (_gui_w / 2) - (_bar_largura_final / 2);
+var _sfx_by1 = start_y + (1 * espacamento) - (_bar_altura_final / 2);
+
+// Área da opção "VOLTAR"
 draw_set_font(fnt_dica);
 var _txt_w = string_width(opcoes[2]);
 var _txt_h = string_height(opcoes[2]);
 
-var _voltar_x1 = (_gui_w / 2) - (_txt_w / 2) - 15; // Margem de clique à esquerda
-var _voltar_x2 = (_gui_w / 2) + (_txt_w / 2) + 15; // Margem de clique à direita
-var _voltar_y1 = start_y + (2 * espacamento) - (_txt_h / 2) - 5;
-var _voltar_y2 = start_y + (2 * espacamento) + (_txt_h / 2) + 5;
+var _voltar_x1 = (_gui_w / 2) - (_txt_w / 2) - 20;
+var _voltar_x2 = (_gui_w / 2) + (_txt_w / 2) + 20;
+var _voltar_y1 = start_y + (2 * espacamento) - (_txt_h / 2) - 10;
+var _voltar_y2 = start_y + (2 * espacamento) + (_txt_h / 2) + 10;
 
 // -------------------------------------------------------------
-// 2. CONTROLE DO MOUSE (CLIQUE E ARRASTO)
+// 2. CONTROLE DO MOUSE (CLIQUE E ARRASTO ESCALADO)
 // -------------------------------------------------------------
 var _mx = device_mouse_x_to_gui(0);
 var _my = device_mouse_y_to_gui(0);
@@ -43,19 +51,20 @@ var _clique_inicio    = device_mouse_check_button_pressed(0, mb_left);
 var _segurando_clique = device_mouse_check_button(0, mb_left);
 var _soltou_clique    = device_mouse_check_button_released(0, mb_left);
 
-// --- BARRA DE MÚSICA (HOVER & ARRASTO) ---
-if (point_in_rectangle(_mx, _my, _musica_bx1 - 100, _musica_by1, _musica_bx1 + bar_largura, _musica_by1 + bar_altura)) {
-    opc_selecionada = 0;
+// --- BARRA DE MÚSICA ---
+if (point_in_rectangle(_mx, _my, _musica_bx1 - 80, _musica_by1, _musica_bx1 + _bar_largura_final, _musica_by1 + _bar_altura_final)) {
+    if (!arrastando_sfx) opc_selecionada = 0;
 }
 
-if (_clique_inicio && point_in_rectangle(_mx, _my, _musica_bx1, _musica_by1, _musica_bx1 + bar_largura, _musica_by1 + bar_altura)) {
+if (_clique_inicio && point_in_rectangle(_mx, _my, _musica_bx1, _musica_by1, _musica_bx1 + _bar_largura_final, _musica_by1 + _bar_altura_final)) {
     arrastando_musica = true;
     opc_selecionada = 0;
 }
 
 if (arrastando_musica) {
     if (_segurando_clique) {
-        global.vol_musica = clamp((_mx - _musica_bx1) / bar_largura, 0.0, 1.0);
+        // Usa a largura ESCALADA real para o cálculo do slider ficar preciso
+        global.vol_musica = clamp((_mx - _musica_bx1) / _bar_largura_final, 0.0, 1.0);
         if (global.musica_atual != -1) {
             audio_sound_gain(global.musica_atual, global.vol_musica, 0);
         }
@@ -66,19 +75,20 @@ if (arrastando_musica) {
     }
 }
 
-// --- BARRA DE SFX (HOVER & ARRASTO) ---
-if (point_in_rectangle(_mx, _my, _sfx_bx1 - 100, _sfx_by1, _sfx_bx1 + bar_largura, _sfx_by1 + bar_altura)) {
-    opc_selecionada = 1;
+// --- BARRA DE SFX ---
+if (point_in_rectangle(_mx, _my, _sfx_bx1 - 80, _sfx_by1, _sfx_bx1 + _bar_largura_final, _sfx_by1 + _bar_altura_final)) {
+    if (!arrastando_musica) opc_selecionada = 1;
 }
 
-if (_clique_inicio && point_in_rectangle(_mx, _my, _sfx_bx1, _sfx_by1, _sfx_bx1 + bar_largura, _sfx_by1 + bar_altura)) {
+if (_clique_inicio && point_in_rectangle(_mx, _my, _sfx_bx1, _sfx_by1, _sfx_bx1 + _bar_largura_final, _sfx_by1 + _bar_altura_final)) {
     arrastando_sfx = true;
     opc_selecionada = 1;
 }
 
 if (arrastando_sfx) {
     if (_segurando_clique) {
-        global.vol_sfx = clamp((_mx - _sfx_bx1) / bar_largura, 0.0, 1.0);
+        // Usa a largura ESCALADA real
+        global.vol_sfx = clamp((_mx - _sfx_bx1) / _bar_largura_final, 0.0, 1.0);
     }
     if (_soltou_clique) {
         arrastando_sfx = false;
@@ -89,7 +99,7 @@ if (arrastando_sfx) {
 
 // --- CLIQUE E HOVER NA OPÇÃO "VOLTAR" ---
 if (point_in_rectangle(_mx, _my, _voltar_x1, _voltar_y1, _voltar_x2, _voltar_y2)) {
-    opc_selecionada = 2; // Destaca o texto "VOLTAR" em amarelo ao passar o mouse
+    if (!arrastando_musica && !arrastando_sfx) opc_selecionada = 2;
     
     if (_clique_inicio) {
         if (instance_exists(obj_audio)) obj_audio.tocar_sfx(snd_menu_clique);
@@ -142,42 +152,44 @@ if (_baixo) {
 }
 
 // -------------------------------------------------------------
-// 5. AJUSTAR OS VOLUMES
+// 5. AJUSTAR OS VOLUMES COM TECLADO/GAMEPAD (Suave)
 // -------------------------------------------------------------
 timer_navegacao--;
 
 if (timer_navegacao <= 0) {
+    var _passo_vol = 0.02; // Altera de 2% em 2% para um deslizamento suave
+    
     if (opc_selecionada == 0) {
         if (_esquerda) {
-            global.vol_musica = clamp(global.vol_musica - 0.05, 0.0, 1.0);
+            global.vol_musica = clamp(global.vol_musica - _passo_vol, 0.0, 1.0);
             if (global.musica_atual != -1) audio_sound_gain(global.musica_atual, global.vol_musica, 0);
             if (instance_exists(obj_controle)) obj_controle.scr_salvar_opcoes();
-            timer_navegacao = 5;
+            timer_navegacao = 3;
         }
         if (_direita) {
-            global.vol_musica = clamp(global.vol_musica + 0.05, 0.0, 1.0);
+            global.vol_musica = clamp(global.vol_musica + _passo_vol, 0.0, 1.0);
             if (global.musica_atual != -1) audio_sound_gain(global.musica_atual, global.vol_musica, 0);
             if (instance_exists(obj_controle)) obj_controle.scr_salvar_opcoes();
-            timer_navegacao = 5;
+            timer_navegacao = 3;
         }
     }
     
     if (opc_selecionada == 1) {
         if (_esquerda) {
-            global.vol_sfx = clamp(global.vol_sfx - 0.05, 0.0, 1.0);
+            global.vol_sfx = clamp(global.vol_sfx - _passo_vol, 0.0, 1.0);
             if (instance_exists(obj_controle)) obj_controle.scr_salvar_opcoes();
-            timer_navegacao = 6;
+            timer_navegacao = 3;
         }
         if (_direita) {
-            global.vol_sfx = clamp(global.vol_sfx + 0.05, 0.0, 1.0);
+            global.vol_sfx = clamp(global.vol_sfx + _passo_vol, 0.0, 1.0);
             if (instance_exists(obj_controle)) obj_controle.scr_salvar_opcoes();
-            timer_navegacao = 6;
+            timer_navegacao = 3;
         }
     }
 }
 
 // -------------------------------------------------------------
-// 6. INICIAR FECHAMENTO (FADE OUT)
+// 6. FECHAMENTO DO MENU
 // -------------------------------------------------------------
 if ((_confirmar && opc_selecionada == 2) || _voltar) {
     if (instance_exists(obj_audio)) obj_audio.tocar_sfx(snd_menu_clique);

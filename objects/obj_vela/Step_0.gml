@@ -8,45 +8,56 @@ if (!caindo) {
         caindo = true;
         
         var _forca = 5; 
-        var _dir = _foice.direction; // Pega a direção da foice que colidiu
+        var _dir = _foice.direction;
         
         hsp = lengthdir_x(_forca, _dir);
         vsp = lengthdir_y(_forca, _dir);
-        rot_speed = -sign(hsp) * 10; // Começa a girar
+        rot_speed = -sign(hsp) * 10;
     }
 }
 
 // -------------------------------------------------------------
-// 2. CHAMA DE FOGO (DESENHA AS PARTÍCULAS DE FOGO NO PAVIO)
+// 2. REDUÇÃO DA LUZ E PARTÍCULAS DE FOGO NO PAVIO
 // -------------------------------------------------------------
-var _distancia_pavio = 12; // Ajuste para a altura do pavio da sua sprite
-var _fogo_x = x + lengthdir_x(_distancia_pavio, image_angle + 90);
-var _fogo_y = y + lengthdir_y(_distancia_pavio, image_angle + 90);
+if (caindo) {
+    // Reduz o tamanho e a opacidade da luz gradualmente até 0
+    luz_tamanho = max(0, luz_tamanho - luz_apagar_velocidade);
+    luz_alpha = max(0, luz_alpha - (luz_apagar_velocidade * 0.8));
+}
 
-part_particles_create(part_sys, _fogo_x, _fogo_y, part_fogo, 1);
+// Só desenha o fogo no pavio se a luz ainda não apagou completamente
+if (luz_tamanho > 0.1) {
+    var _distancia_pavio = 12; // Altura do pavio em relação à sprite
+    var _fogo_x = x + lengthdir_x(_distancia_pavio, image_angle + 90);
+    var _fogo_y = y + lengthdir_y(_distancia_pavio, image_angle + 90);
+
+    part_particles_create(part_sys, _fogo_x, _fogo_y, part_fogo, 1);
+}
 
 // -------------------------------------------------------------
-// 3. MOVIMENTAÇÃO, FÍSICA E QUIQUES QUANDO A VELA É ATINGIDA
+// 3. MOVIMENTAÇÃO, FÍSICA E QUIQUES
 // -------------------------------------------------------------
 if (caindo) {
     vsp += grav;
     image_angle += rot_speed;
     
-    // Faíscas durante o voo
-    part_particles_create(part_sys, x, y, part_faisca, 1);
+    // Faíscas saem enquanto a vela ainda estiver um pouco acesa
+    if (luz_tamanho > 0.05) {
+        part_particles_create(part_sys, x, y, part_faisca, 1);
+    }
 
-    // Colisão Horizontal com Parede
+    // Colisão Horizontal
     if (place_meeting(x + hsp, y, obj_parede)) {
         while (!place_meeting(x + sign(hsp), y, obj_parede)) {
             x += sign(hsp);
         }
         hsp = -hsp * 0.6; 
         rot_speed = -rot_speed * 0.7;
-        part_particles_create(part_sys, x, y, part_faisca, 4);
+        part_particles_create(part_sys, x, y, part_faisca, 3);
     }
     x += hsp;
     
-    // Colisão Vertical com Chão/Teto
+    // Colisão Vertical
     if (place_meeting(x, y + vsp, obj_parede)) {
         while (!place_meeting(x, y + sign(vsp), obj_parede)) {
             y += sign(vsp);
@@ -59,11 +70,10 @@ if (caindo) {
             part_particles_create(part_sys, x, y, part_faisca, 3);
         } 
         else {
-            // Apaga no chão: cria a fumaça e destrói a vela
+            // Apaga ao parar no chão
             repeat (3) {
                 instance_create_layer(x + random_range(-2, 2), y, "Instances", obj_fumaca);
             }
-            
             instance_destroy(); 
         }
     } else {
@@ -71,6 +81,4 @@ if (caindo) {
     }
 }
 
-
-// A vela só conta como 'ativa' enquanto estiver caindo/voando
 esta_ativa = caindo;

@@ -30,7 +30,7 @@ if (instance_exists(obj_joystick)) {
 		        var _foice = instance_create_layer(x, y, "Instances", obj_foice);
 		        _foice.direction = _angle;
 		        _foice.image_angle = _angle;
-		        _foice.speed = 12;
+		        _foice.speed = 08;
 		
 		        // --- CHAME O SOM AQUI ---
 		        if (instance_exists(obj_audio)) {
