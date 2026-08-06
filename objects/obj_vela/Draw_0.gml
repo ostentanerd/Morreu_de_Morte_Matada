@@ -1,6 +1,6 @@
 // Desenha a sprite da vela normalmente
 draw_self();
-
+/*
 // -------------------------------------------------------------
 // DESENHO DA LUZ (MODO ADITIVO / BM_ADD)
 // -------------------------------------------------------------

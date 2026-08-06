@@ -94,6 +94,13 @@ if (!game_over && !vitoria && !em_loading && foice_lancada) {
 // 2. SISTEMA DE TRANSIÇÃO, DESBLOQUEIO DE FASE E TELA DE CRÉDITOS
 if (em_loading) {
     
+    // -> TRAVA DE SEGURANÇA DA ARTE (NOVIDADE AQUI) <-
+    if (arte_escolhida == -1) {
+        var _lista_de_artes = [spr_arte1, spr_arte2, spr_arte3];
+        var _index_sorteado = irandom(array_length(_lista_de_artes) - 1);
+        arte_escolhida = _lista_de_artes[_index_sorteado];
+    }
+    
     // Trava de segurança para a dica
     if (dica_escolhida == "") {
         var _sorteio = irandom(2);
@@ -160,6 +167,7 @@ if (em_loading) {
     // FINALIZA O LOADING QUANDO O TIMER ZERAR
     if (loading_timer <= 0) {
         em_loading = false;
+        arte_escolhida = -1; // -> NOVIDADE: Reseta a arte para forçar um novo sorteio no próximo loading!
     }
 }
 

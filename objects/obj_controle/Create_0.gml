@@ -1,3 +1,8 @@
+// Garante que os desenhos do DRAW GUI fiquem no tamanho certo da Pixel Art
+display_set_gui_size(384, 216);
+
+
+
 // =============================================================
 // 1. TRAVA DE SEGURANÇA (SINGLETON)
 // Deve ser a PRIMEIRA coisa a rodar para interromper duplicatas imediatamente.

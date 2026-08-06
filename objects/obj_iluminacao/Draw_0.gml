@@ -13,7 +13,7 @@ if (!surface_exists(surface_luz)) {
 surface_set_target(surface_luz);
 
 // Limpa a surface com a cor escura da sombra (ex: 85% opacidade)
-draw_clear_alpha(c_black, 0.75);
+draw_clear_alpha(c_black, 0.60);
 
 // Ativa o modo de "cortar" buracos na sombra
 gpu_set_blendmode(bm_subtract);

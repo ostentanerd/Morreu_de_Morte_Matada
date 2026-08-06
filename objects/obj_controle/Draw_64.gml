@@ -29,7 +29,7 @@ if (vitoria == true && !em_loading) {
     
     draw_set_font(fnt_titulo); 
     draw_set_color(c_lime);
-    draw_text(_gui_w / 2, _gui_h / 2 - 80, "ALVO ELIMINADO!");
+    draw_text(_gui_w / 2, _gui_h / 2 - 25, "ALVO ELIMINADO!");
     
     draw_set_font(fnt_dica); 
     draw_set_color(c_white);
@@ -52,7 +52,7 @@ else if (game_over == true) {
     
     draw_set_font(fnt_titulo); 
     draw_set_color(c_red);
-    draw_text(_gui_w / 2, _gui_h / 2 - 80, "ALVO ERRADO!");
+    draw_text(_gui_w / 2, _gui_h / 2 - 25, "ALVO ERRADO!");
     
     draw_set_font(fnt_dica); 
     draw_set_color(c_white);
@@ -87,7 +87,7 @@ if (em_loading == true) {
     draw_set_halign(fa_center);
     draw_set_valign(fa_middle);
     
-    var _pos_y_dica = _gui_h - 100; 
+    var _pos_y_dica = _gui_h - 35; 
     
     draw_set_color(c_black);
     draw_text((_gui_w / 2) + 2, _pos_y_dica + 2, dica_escolhida);
@@ -156,7 +156,7 @@ if (!em_loading) {
             mira_frame,  
             _mira_x,     
             _mira_y,     
-            2, 2,        
+            1, 1,        
             _usando_controle ? _ang : 0, 
             c_white,     
             1            

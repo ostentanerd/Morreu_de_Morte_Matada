@@ -1,0 +1,26 @@
+{
+  "$GMSound":"v2",
+  "%Name":"snd_quabra_barril",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "channelFormat":0,
+  "compression":0,
+  "compressionQuality":4,
+  "conversionMode":0,
+  "duration":1.8960091,
+  "exportDir":"",
+  "name":"snd_quabra_barril",
+  "parent":{
+    "name":"Morreu de Morte Matada",
+    "path":"Morreu de Morte Matada.yyp",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"snd_quabra_barril.mp3",
+  "volume":0.48,
+}

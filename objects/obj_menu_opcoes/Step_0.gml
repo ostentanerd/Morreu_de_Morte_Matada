@@ -1,8 +1,6 @@
 var _gui_w = display_get_gui_width();
 
-// -------------------------------------------------------------
 // 0. ATUALIZAÇÃO DA TRANSIÇÃO DE FADE
-// -------------------------------------------------------------
 alpha = lerp(alpha, alpha_alvo, velocidade_fade);
 
 if (fechando) {
@@ -14,10 +12,8 @@ if (fechando) {
     exit;
 }
 
-// -------------------------------------------------------------
-// 1. DADOS DE ESCALA DAS BARRAS (Igual ao Draw GUI)
-// -------------------------------------------------------------
-var _escala = 2.5; // DEVE SER A MESMA ESCALA USADA NO DRAW GUI
+// 1. DADOS DE ESCALA DAS BARRAS (DEVE SER EXATAMENTE O MESMO DO DRAW GUI!)
+var _escala = 1.0; 
 var _spr_w = sprite_get_width(spr_barra_fundo);
 var _spr_h = sprite_get_height(spr_barra_fundo);
 
@@ -41,9 +37,7 @@ var _voltar_x2 = (_gui_w / 2) + (_txt_w / 2) + 20;
 var _voltar_y1 = start_y + (2 * espacamento) - (_txt_h / 2) - 10;
 var _voltar_y2 = start_y + (2 * espacamento) + (_txt_h / 2) + 10;
 
-// -------------------------------------------------------------
-// 2. CONTROLE DO MOUSE (CLIQUE E ARRASTO ESCALADO)
-// -------------------------------------------------------------
+// 2. CONTROLE DO MOUSE (CLIQUE E ARRASTO)
 var _mx = device_mouse_x_to_gui(0);
 var _my = device_mouse_y_to_gui(0);
 
@@ -52,7 +46,7 @@ var _segurando_clique = device_mouse_check_button(0, mb_left);
 var _soltou_clique    = device_mouse_check_button_released(0, mb_left);
 
 // --- BARRA DE MÚSICA ---
-if (point_in_rectangle(_mx, _my, _musica_bx1 - 80, _musica_by1, _musica_bx1 + _bar_largura_final, _musica_by1 + _bar_altura_final)) {
+if (point_in_rectangle(_mx, _my, _musica_bx1 - 40, _musica_by1 - 10, _musica_bx1 + _bar_largura_final + 40, _musica_by1 + _bar_altura_final + 10)) {
     if (!arrastando_sfx) opc_selecionada = 0;
 }
 
@@ -63,7 +57,6 @@ if (_clique_inicio && point_in_rectangle(_mx, _my, _musica_bx1, _musica_by1, _mu
 
 if (arrastando_musica) {
     if (_segurando_clique) {
-        // Usa a largura ESCALADA real para o cálculo do slider ficar preciso
         global.vol_musica = clamp((_mx - _musica_bx1) / _bar_largura_final, 0.0, 1.0);
         if (global.musica_atual != -1) {
             audio_sound_gain(global.musica_atual, global.vol_musica, 0);
@@ -76,7 +69,7 @@ if (arrastando_musica) {
 }
 
 // --- BARRA DE SFX ---
-if (point_in_rectangle(_mx, _my, _sfx_bx1 - 80, _sfx_by1, _sfx_bx1 + _bar_largura_final, _sfx_by1 + _bar_altura_final)) {
+if (point_in_rectangle(_mx, _my, _sfx_bx1 - 40, _sfx_by1 - 10, _sfx_bx1 + _bar_largura_final + 40, _sfx_by1 + _bar_altura_final + 10)) {
     if (!arrastando_musica) opc_selecionada = 1;
 }
 
@@ -87,7 +80,6 @@ if (_clique_inicio && point_in_rectangle(_mx, _my, _sfx_bx1, _sfx_by1, _sfx_bx1 
 
 if (arrastando_sfx) {
     if (_segurando_clique) {
-        // Usa a largura ESCALADA real
         global.vol_sfx = clamp((_mx - _sfx_bx1) / _bar_largura_final, 0.0, 1.0);
     }
     if (_soltou_clique) {
@@ -97,7 +89,7 @@ if (arrastando_sfx) {
     }
 }
 
-// --- CLIQUE E HOVER NA OPÇÃO "VOLTAR" ---
+// --- CLIQUE NA OPÇÃO "VOLTAR" ---
 if (point_in_rectangle(_mx, _my, _voltar_x1, _voltar_y1, _voltar_x2, _voltar_y2)) {
     if (!arrastando_musica && !arrastando_sfx) opc_selecionada = 2;
     
@@ -108,9 +100,7 @@ if (point_in_rectangle(_mx, _my, _voltar_x1, _voltar_y1, _voltar_x2, _voltar_y2)
     }
 }
 
-// -------------------------------------------------------------
 // 3. LEITURA DOS INPUTS (TECLADO E GAMEPAD)
-// -------------------------------------------------------------
 var _cima      = keyboard_check_pressed(vk_up)    || keyboard_check_pressed(ord("W"));
 var _baixo     = keyboard_check_pressed(vk_down)  || keyboard_check_pressed(ord("S"));
 var _esquerda  = keyboard_check(vk_left)          || keyboard_check(ord("A"));
@@ -128,17 +118,15 @@ if (instance_exists(obj_joystick)) {
         var _gp_dir    = gamepad_button_check(_pad, gp_padr)        || (gamepad_axis_value(_pad, gp_axislh) > 0.5);
         var _gp_voltar = gamepad_button_check_pressed(_pad, gp_face2);
         
-        _cima     = _cima     || _gp_cima;
-        _baixo    = _baixo    || _gp_baixo;
-        _esquerda = _esquerda || _gp_esq;
-        _direita  = _direita  || _gp_dir;
-        _voltar   = _voltar   || _gp_voltar;
+        _cima      = _cima      || _gp_cima;
+        _baixo     = _baixo     || _gp_baixo;
+        _esquerda  = _esquerda  || _gp_esq;
+        _direita   = _direita   || _gp_dir;
+        _voltar    = _voltar    || _gp_voltar;
     }
 }
 
-// -------------------------------------------------------------
-// 4. MOVER A SELEÇÃO
-// -------------------------------------------------------------
+// 4. MOVER A SELEÇÃO COM TECLADO/SETAS
 if (_cima) {
     opc_selecionada--;
     if (opc_selecionada < 0) opc_selecionada = array_length(opcoes) - 1;
@@ -151,13 +139,11 @@ if (_baixo) {
     if (instance_exists(obj_audio)) obj_audio.tocar_sfx(snd_menu_navegar);
 }
 
-// -------------------------------------------------------------
-// 5. AJUSTAR OS VOLUMES COM TECLADO/GAMEPAD (Suave)
-// -------------------------------------------------------------
+// 5. AJUSTAR OS VOLUMES COM AS SETAS ESQUERDA/DIREITA
 timer_navegacao--;
 
 if (timer_navegacao <= 0) {
-    var _passo_vol = 0.02; // Altera de 2% em 2% para um deslizamento suave
+    var _passo_vol = 0.02;
     
     if (opc_selecionada == 0) {
         if (_esquerda) {
@@ -188,9 +174,7 @@ if (timer_navegacao <= 0) {
     }
 }
 
-// -------------------------------------------------------------
 // 6. FECHAMENTO DO MENU
-// -------------------------------------------------------------
 if ((_confirmar && opc_selecionada == 2) || _voltar) {
     if (instance_exists(obj_audio)) obj_audio.tocar_sfx(snd_menu_clique);
     fechando = true;
