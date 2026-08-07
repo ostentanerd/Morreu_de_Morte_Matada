@@ -22,12 +22,12 @@ if (!caindo) {
 if (caindo) {
     // Reduz o tamanho e a opacidade da luz gradualmente até 0
     luz_tamanho = max(0, luz_tamanho - luz_apagar_velocidade);
-    luz_alpha = max(0, luz_alpha - (luz_apagar_velocidade * 0.8));
+    luz_alpha = max(0, luz_alpha - (luz_apagar_velocidade * 0.5));
 }
 
 // Só desenha o fogo no pavio se a luz ainda não apagou completamente
 if (luz_tamanho > 0.1) {
-    var _distancia_pavio = 12; // Altura do pavio em relação à sprite
+    var _distancia_pavio = 16; // Altura do pavio em relação à sprite
     var _fogo_x = x + lengthdir_x(_distancia_pavio, image_angle + 90);
     var _fogo_y = y + lengthdir_y(_distancia_pavio, image_angle + 90);
 

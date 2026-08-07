@@ -32,8 +32,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_btn_fase",
-    "path":"sprites/spr_btn_fase/spr_btn_fase.yy",
+    "name":"spr_btn_menu",
+    "path":"sprites/spr_btn_menu/spr_btn_menu.yy",
   },
   "spriteMaskId":null,
   "visible":true,

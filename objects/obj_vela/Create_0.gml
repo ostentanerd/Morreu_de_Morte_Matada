@@ -41,4 +41,4 @@ part_type_life(part_faisca, 10, 18);
 // -------------------------------------------------------------
 luz_tamanho = 1.0;            // Escala atual do raio da luz (1.0 = 100%)
 luz_alpha = 0.7;              // Opacidade base da luz
-luz_apagar_velocidade = 0.025; // Velocidade com que a luz apaga ao cair (maior = mais rápido)
+luz_apagar_velocidade = 0.055; // Velocidade com que a luz apaga ao cair (maior = mais rápido)

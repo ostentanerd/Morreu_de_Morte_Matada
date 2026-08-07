@@ -33,7 +33,7 @@ draw_text_transformed(_px + 1, _py + 1, "MENU", _escala_texto, _escala_texto, 0)
 
 // Texto principal nítido
 draw_set_color(c_white);
-draw_text_transformed(_px, _py, "MENU", _escala_texto, _escala_texto, 0);
+//draw_text_transformed(_px, _py, "MENU", _escala_texto, _escala_texto, 0);
 
 // Reseta as configurações do GameMaker
 draw_set_halign(fa_left);
