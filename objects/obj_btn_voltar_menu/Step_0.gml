@@ -16,9 +16,21 @@ if (instance_exists(obj_joystick)) {
 }
 
 // --------------------------------------------------------
-// 2. VERIFICAÇÃO DO MOUSE (Lógica original mantida)
+// 2. VERIFICAÇÃO DO MOUSE E SOM DE NAVEGAÇÃO
 // --------------------------------------------------------
 mouse_em_cima = position_meeting(mouse_x, mouse_y, id);
+
+// --- SOM DE HOVER / NAVEGAÇÃO ---
+// Toca apenas no frame exato em que o ponteiro entra no botão
+if (mouse_em_cima && !mouse_estava_em_cima) {
+    if (instance_exists(obj_audio)) {
+        obj_audio.tocar_sfx(snd_menu_navegar);
+    }
+}
+
+// Atualiza o estado para a próxima checagem do frame
+mouse_estava_em_cima = mouse_em_cima;
+
 var _clique_mouse = (mouse_em_cima && mouse_check_button_pressed(mb_left));
 
 // Garante que o clique do controle seja único e não repetitivo
@@ -28,21 +40,26 @@ if (_controle_voltar || _tecla_voltar) {
 }
 
 // --------------------------------------------------------
-// 3. AÇÃO DO BOTÃO (Executa se houver clique, mouse em cima ou input de teclado/controle)
+// 3. AÇÃO DO BOTÃO
 // --------------------------------------------------------
 if (_clique_mouse) {
     
     // EFEITO VISUAL OPCIONAL: Se for via controle/teclado, força o frame de hover
     image_index = 1; 
     
+    // SOM DE CLIQUE DO BOTÃO
+    if (instance_exists(obj_audio)) {
+        obj_audio.tocar_sfx(snd_menu_clique);
+    }
+    
     // Garante que o jogo está salvo ANTES de sair da fase
     if (instance_exists(obj_controle)) {
         obj_controle.scr_salvar_jogo();
     }
     
-    // Despausa o jogo caso o botão seja clicado durante o Hitstop (opcional, mas recomendado)
+    // Despausa o jogo caso o botão seja clicado durante o Hitstop
     if (variable_global_exists("scr_hitstop")) {
-         global.scr_hitstop(0); // Cancela qualquer hitstop pendente
+        global.scr_hitstop(0); // Cancela qualquer hitstop pendente
     }
     game_set_speed(60, gamespeed_fps);
     

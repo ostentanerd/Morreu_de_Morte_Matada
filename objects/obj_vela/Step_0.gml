@@ -1,4 +1,21 @@
 // -------------------------------------------------------------
+// ATUALIZA O VOLUME DO FOGO DE ACORDO COM AS OPÇÕES
+// -------------------------------------------------------------
+if (audio_is_playing(som_fogo)) {
+    var _vol_sfx = 1;
+    
+    // Busca a variável de volume do seu obj_audio ou global
+    if (instance_exists(obj_audio) && variable_instance_exists(obj_audio, "volume_sfx")) {
+        _vol_sfx = obj_audio.volume_sfx;
+    } else if (variable_global_exists("vol_sfx")) {
+        _vol_sfx = global.vol_sfx;
+    }
+    
+    // Aplica o volume atualizado sem atraso (0 milissegundos)
+    audio_sound_gain(som_fogo, vol_base_fogo * _vol_sfx, 0);
+}
+
+// -------------------------------------------------------------
 // 1. CHECA COLISÃO COM A FOICE (QUANDO A VELA AINDA ESTÁ PARADA)
 // -------------------------------------------------------------
 if (!caindo) {
@@ -7,14 +24,21 @@ if (!caindo) {
     if (_foice != noone) {
         caindo = true;
         
-        var _forca = 5; 
+        // PARA O SOM DO FOGO POIS A VELA FOI DERRUBADA
+        if (audio_is_playing(som_fogo)) {
+            audio_stop_sound(som_fogo);
+        }
+        
+        var _forca = 6; 
         var _dir = _foice.direction;
         
         hsp = lengthdir_x(_forca, _dir);
         vsp = lengthdir_y(_forca, _dir);
-        rot_speed = -sign(hsp) * 10;
+        rot_speed = -sign(hsp) * 12;
     }
 }
+
+
 
 // -------------------------------------------------------------
 // 2. REDUÇÃO DA LUZ E PARTÍCULAS DE FOGO NO PAVIO
@@ -51,8 +75,8 @@ if (caindo) {
         while (!place_meeting(x + sign(hsp), y, obj_parede)) {
             x += sign(hsp);
         }
-        hsp = -hsp * 0.6; 
-        rot_speed = -rot_speed * 0.7;
+        hsp = -hsp * 0.7; 
+        rot_speed = -rot_speed * 0.8;
         part_particles_create(part_sys, x, y, part_faisca, 3);
     }
     x += hsp;
@@ -74,6 +98,7 @@ if (caindo) {
             repeat (3) {
                 instance_create_layer(x + random_range(-2, 2), y, "Instances", obj_fumaca);
             }
+            
             instance_destroy(); 
         }
     } else {

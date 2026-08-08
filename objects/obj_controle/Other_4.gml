@@ -1,8 +1,7 @@
-// No Room Start Event do obj_controle:
-if (instance_exists(obj_audio)) {
+// No ROOM START do obj_controle, adicione a trava para a cutscene:
+if (instance_exists(obj_audio) && room != rm_cutscene) {
     obj_audio.tocar_musica(snd_musica_fase_01);
 }
-
 
 
 

@@ -5,11 +5,28 @@ if (instance_exists(obj_controle)) {
 
 // 2. Checa o mouse
 mouse_em_cima = position_meeting(mouse_x, mouse_y, id);
+
+// --- SOM DE HOVER / NAVEGAÇÃO ---
+// Toca apenas no frame exato em que o mouse ENTRA no botão liberado
+if (mouse_em_cima && !mouse_estava_em_cima && !bloqueado) {
+    if (instance_exists(obj_audio)) {
+        obj_audio.tocar_sfx(snd_menu_navegar);
+    }
+}
+
+// Atualiza o estado do mouse para o próximo frame
+mouse_estava_em_cima = mouse_em_cima;
+
 var _clique_mouse = (mouse_em_cima && mouse_check_button_pressed(mb_left));
 
-// 3. Clique para carregar a fase se estiver liberada (Usando o sistema de Loading com Fade e Dicas do Controle!)
+// 3. Clique para carregar a fase se estiver liberada
 if (_clique_mouse && !bloqueado) {
     var _rm_alvo = asset_get_index("rm_fase" + string(numero_fase));
+    
+    // --- CHAME O SOM DE CLIQUE AQUI ---
+    if (instance_exists(obj_audio)) {
+        obj_audio.tocar_sfx(snd_menu_clique);
+    }
     
     if (_rm_alvo != -1 && instance_exists(obj_controle)) {
         // Evita clicar se já estiver em loading
@@ -32,8 +49,6 @@ if (_clique_mouse && !bloqueado) {
                 case 2: obj_controle.dica_escolhida = "DICA: Você pode atirar enquanto estiver na escada."; break;
             }
             
-            // Força o obj_controle a ir diretamente para a fase escolhida no meio do timer (frame 120)
-            // Vamos criar uma variável temporária no controle para guardar o alvo do botão:
             obj_controle.room_alvo_botao = _rm_alvo;
         }
     }

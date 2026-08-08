@@ -1,0 +1,26 @@
+{
+  "$GMSound":"v2",
+  "%Name":"snd_fogo_vela",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "channelFormat":0,
+  "compression":0,
+  "compressionQuality":4,
+  "conversionMode":0,
+  "duration":79.53599,
+  "exportDir":"",
+  "name":"snd_fogo_vela",
+  "parent":{
+    "name":"Morreu de Morte Matada",
+    "path":"Morreu de Morte Matada.yyp",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"snd_fogo_vela.mp3",
+  "volume":0.56,
+}

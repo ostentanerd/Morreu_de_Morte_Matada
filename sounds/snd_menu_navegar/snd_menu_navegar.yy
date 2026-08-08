@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":0.14188209,
+  "duration":0.60902494,
   "exportDir":"",
   "name":"snd_menu_navegar",
   "parent":{

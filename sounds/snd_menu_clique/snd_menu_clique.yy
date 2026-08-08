@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":0.10473923,
+  "duration":0.60804987,
   "exportDir":"",
   "name":"snd_menu_clique",
   "parent":{

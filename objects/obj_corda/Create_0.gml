@@ -1,7 +1,13 @@
-// Procura uma armadilha logo abaixo da corda (em um raio de 32 pixels para baixo)
-meu_objeto_preso = instance_place(x, y + 32, obj_armadilha);
+cortada = false;
 
-// Se não achou logo colada, busca a armadilha mais próxima abaixo dela
-if (meu_objeto_preso == noone) {
-    meu_objeto_preso = instance_nearest(x, y + 16, obj_armadilha);
+// Trça uma linha invisível reto para baixo (ex: até 128 pixels abaixo da corda)
+// Procura por qualquer objeto filho de obj_armadilha_pai (ou obj_lustre)
+meu_objeto_preso = collision_line(x, y, x, y + 128, obj_armadilha_pai, false, true);
+
+// Se encontrou o lustre/armadilha pendurado:
+if (meu_objeto_preso != noone) {
+    with (meu_objeto_preso) {
+        gravity = 0; // Mantém o lustre preso no ar sem cair
+        speed = 0;
+    }
 }

@@ -99,20 +99,25 @@ if (_enter) {
 			}
 			break;
             
-        case 1: // NOVO JOGO
-			 if (instance_exists(obj_controle)) {
-			     // Reseta o progresso para a fase inicial
-			     obj_controle.fase_maxima = 1; 
-			     obj_controle.scr_salvar_jogo(); // Salva o jogo limpo imediatamente
-			     
-			     obj_controle.room_alvo_botao = rm_tutorial; // Define o Tutorial como destino do loading
-			     obj_controle.em_loading = true;
-			     obj_controle.loading_timer = 240;
-			     obj_controle.alpha_loading = 0;
-			 } else {
-			     room_goto(rm_tutorial); // Se não houver controle, entra direto no tutorial
-			 }
-			 break;
+		case 1: // NOVO JOGO
+			io_clear(); // Limpa cliques para não pular o vídeo sem querer
+			
+			// 1. Guarda o Tutorial como a sala que vem DEPOIS do vídeo
+			global.proxima_sala_cutscene = rm_tutorial;
+			
+			if (instance_exists(obj_controle)) {
+			    // Reseta o progresso do jogador
+			    obj_controle.fase_maxima = 1; 
+			    obj_controle.scr_salvar_jogo(); 
+			    
+			    // 2. DESATIVA o sistema de loading para evitar loops de room_goto e fades por cima
+			    obj_controle.em_loading = false;
+			    obj_controle.alpha_loading = 0;
+			}
+			
+			// 3. Vai DIRETO para a room da cutscene sem passar pelo timer do controle
+			room_goto(rm_cutscene);
+		break;
             
         case 2: // SELECIONAR FASE
 			var _pode_selecionar = (instance_exists(obj_controle) && obj_controle.fase_maxima > 1);

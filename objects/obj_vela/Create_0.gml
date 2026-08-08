@@ -1,12 +1,26 @@
 event_inherited(); // Mantém o que tem no pai
 
+// Volume base desejado para este efeito específico
+vol_base_fogo = 0.5; 
+
+// Toca o som de fogo em loop
+som_fogo = audio_play_sound(snd_fogo_vela, 10, true);
+
+// Aplica o volume inicial considerando o volume de SFX das opções
+var _vol_sfx = 1;
+if (instance_exists(obj_audio) && variable_instance_exists(obj_audio, "volume_sfx")) {
+    _vol_sfx = obj_audio.volume_sfx;
+} else if (variable_global_exists("vol_sfx")) {
+    _vol_sfx = global.vol_sfx;
+}
+
+audio_sound_gain(som_fogo, vol_base_fogo * _vol_sfx, 0);
 
 caindo = false;
 hsp = 0;
 vsp = 0;
 grav = 0.25;
 rot_speed = 0;
-
 // -------------------------------------------------------------
 // SISTEMA DE PARTÍCULAS
 // -------------------------------------------------------------
